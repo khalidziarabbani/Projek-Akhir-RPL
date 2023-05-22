@@ -1,0 +1,137 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;400;600;800&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    text-decoration: none;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.homepage {
+    width: 100%;
+    height: 100%;
+    background-color: white;
+}
+
+.navbar {
+    width: 100%;
+    box-shadow: 0px 3px 4px rgba(0, 0, 0, 0.25);
+    display: flex;
+    flex-direction: row;
+    height: 65px;
+}
+
+.logo {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    padding-left: 40px;
+}
+
+.features {
+    width: 60%;
+    display: flex;
+    list-style: none;
+    align-items: center;
+    justify-content: center;
+    gap: 44px;
+}
+
+.features a {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 19px;
+    text-align: center;
+    color: black;
+}
+
+.features a:hover {
+    border-bottom: 3px solid #FBF644;
+}
+
+.user-icon {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    position: relative;
+}
+
+.user-icon ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 1;
+    width: 250px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    background-color: white;
+}
+
+.user-icon:hover ul {
+    display: block;
+}
+
+.user-icon ul li {
+    display: block;
+    border-bottom: 2px solid #FBF644;
+}
+
+.user-icon ul li:first-child {
+    border-top: 2px solid #FBF644;
+}
+
+.user-icon ul li a {
+    display: block;
+    padding: 10px;
+    color: black;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.user-icon ul li a:hover {
+    background-color: #FBF644;
+}
+
+.user-icon img {
+    margin-right: 8px;
+}
+
+.user-icon p {
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    color: #E53433;
+    cursor: default;
+}
+
+
+.login-button {
+    height: 32px;
+    border: 2px solid #E53433;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-button p {
+    width: 100px;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    color: #E53433;
+    text-align: center;
+}
+
+.login-button:hover {
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+}

@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% block title %}Homepage{% endblock title %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static '/index.css' %}">
+<div class="homepage">
+    {% include 'navbar.html' %}
+
+    <!-- header -->
+    <div class="header">
+        <div class="header-container">
+            <div class="special-offer">
+                <div class="so-box">
+                    <div class="special-offer-title">Special Offer</div>
+                    <div class="special-offer-disc">50%</div>
+                    <div class="special-offer-btn">
+                        <a href="#">Buy now -></a>
+                    </div>
+                </div>
+            </div>
+            <div class="common-offer1">
+                <div class="image-one"></div>
+                <div class="image-two"></div>
+            </div>
+            <div class="common-offer2">
+                <div class="image-three"></div>
+                <div class="image-four"></div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- categories -->
+    <div class="categories" id="categories">
+        <div class="cat-judul">Categories</div>
+        <div class="cat-list">
+            {% for c in categories %}
+            <a href="#">
+                <div class="cat-box">
+                    {% if c.image %}
+                    <img src="{{c.image.url}}" alt="">
+                    {% else %}
+                    <img src="" alt="">
+                    {% endif %}
+                    <div class="cat-text">{{c.name}}</div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- our product -->
+    <div class="our-product" id="product">
+        <div class="judul-pro">Our Product</div>
+        <div class="items">
+            {% for p in products %}
+            <div class="item-box 1">
+                <div class="product-image">
+                    <img src="{{p.image.url}}" alt="">
+                </div>
+                <div class="item-content">
+                    <div class="ket-item">
+                        <h1>{{p.name}}</h1>
+                        <h2>{{p.description}}</h2>
+                    </div>
+                    <div class="harga-item">${{p.price}}</div>
+                </div>
+                <a href="#">
+                    <div class="item-button">
+                        <p>Add to cart</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    
+    <!-- about us -->
+    <div class="about-us" id="about">
+        <div class="about-text">About Us</div>
+        <div class="about-box">
+            <div class="about-logo">
+                <img src="{% static "img/logo-about.svg" %}" alt="logo">
+            </div>
+            <div class="about-desc">
+                <h1 class="paragraf-atas">Gemu Shoppu adalah toko game online terpercaya yang menyediakan game dan aksesori dari berbagai platform seperti PC, konsol game, dan mobile. Kami selalu berusaha menyediakan koleksi game terbaru dan terbaik dari berbagai genre, serta memberikan pengalaman berbelanja game yang mudah, cepat, dan aman bagi pelanggan kami.</h1>
+                <h1>Kami memiliki tim yang ramah dan profesional, siap membantu pelanggan dalam memilih game dan memberikan saran-saran yang berguna. Keamanan dan privasi pelanggan menjadi prioritas kami, dan kami selalu menerapkan standar keamanan yang ketat pada website kami. Terima kasih telah mempercayakan kebutuhan game Anda pada Gemu Shoppu.</h1>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock content %}

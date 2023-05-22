@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block title %}Login{% endblock title %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'login.css' %}">
+<div class="background"></div>
+    <div class="container">
+        <div class="judul">
+            <p>Login</p>
+        </div>
+        <div class="input-box">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="input-field">
+                    <input type="text" name="username" placeholder="Enter your username" required>
+                    <i class="uil uil-user icon"></i>
+                </div>
+                <div class="input-field">
+                    <input type="password" name="password" class="password" placeholder="Enter your password" required>
+                    <i class="uil uil-lock icon"></i>
+                    <i class="uil uil-eye-slash showHidePw"></i>
+                </div>
+
+                <div class="checkbox-text">
+                    <div class="checkbox-content">
+                        <input type="checkbox" id="logCheck">
+                        <label for="logCheck" class="text">Remember me</label>
+                    </div>
+                    
+                    <a href="#" class="text forgot">Forgot password?</a>
+                </div>
+
+                <div class="input-field button">
+                    <input type="submit" value="Login">
+                </div>
+            </form>
+        </div>
+        <div class="login-signup">
+            <span class="text">Not a member?
+                <a href={% url 'register' %} class="text signup-link">Signup Now</a>
+            </span>
+        </div>
+    </div>
+    <div class="sisa-background"></div>
+
+    <script>
+        const container = document.querySelector(".container"),
+    pwShowHide = document.querySelectorAll(".showHidePw"),
+    pwFields = document.querySelectorAll(".password"),
+    signUp = document.querySelector(".signup-link"),
+    login = document.querySelector(".login-link");
+
+    pwShowHide.forEach(eyeIcon =>{
+        eyeIcon.addEventListener("click", ()=>{
+            pwFields.forEach(pwField =>{
+                if(pwField.type ==="password"){
+                    pwField.type = "text";
+
+                    pwShowHide.forEach(icon =>{
+                        icon.classList.replace("uil-eye-slash", "uil-eye");
+                    })
+                }else{
+                    pwField.type = "password";
+
+                    pwShowHide.forEach(icon =>{
+                        icon.classList.replace("uil-eye", "uil-eye-slash");
+                    })
+                }
+            }) 
+        })
+    })
+
+    signUp.addEventListener("click", ( )=>{
+        container.classList.add("active");
+    });
+    login.addEventListener("click", ( )=>{
+        container.classList.remove("active");
+    });
+    </script>
+
+{% endblock content %}

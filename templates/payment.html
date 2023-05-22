@@ -1,0 +1,157 @@
+{% extends 'base.html' %}
+{% block title %}Payment{% endblock title %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'payment.css' %}">
+
+{% include 'navbar.html' %}
+<div class="payment">  
+    <h1>Checkout</h1>
+    <div class="payment-box">
+        <div class="payment-box-form">
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="input-field-1">
+                    <img src="{% static 'img/car-cart.png' %}" alt="">
+                    <input type="text" placeholder="Delivery Address" required>
+                </div>
+                <div class="input-field-2">
+                    <div class="input-box">
+                        <p>Full Name</p>
+                        <input type="text" value="{{ user.profile.fullname }}" required>
+                    </div>
+                    <div class="input-box">
+                        <p>Email</p>
+                        <input type="text" value="{{ user.email }}" required>
+                    </div>
+                </div>
+                <div class="input-field-2">
+                    <div class="input-box">
+                        <p>Address</p>
+                        <input type="text" value="{{ user.profile.address }}" required>
+                    </div>
+                    <div class="input-box">
+                        <p>Phone</p>
+                        <input type="text" value="{{ user.profile.phone }}" required>
+                    </div>
+                </div>
+                <div class="input-field-3">
+                    <div class="input-box">
+                        <p>City</p>
+                        <input type="text" required>
+                    </div>
+                    <div class="input-box">
+                        <p>Province</p>
+                        <input type="text" required>
+                    </div>
+                    <div class="input-box">
+                        <p>Country</p>
+                        <input type="text" required>
+                    </div>
+                    <div class="input-box">
+                        <p>ZIP Code</p>
+                        <input type="text" required>
+                    </div>
+                </div>
+
+                <div class="shipping">
+                    <p>Select a shipping method</p>
+                    <div class="shipping-box">
+                        <label class="shipping-option">
+                            <input type="radio" name="radio-target">
+                                <div class="radio-btn">
+                                    <img src="img/sicepat.jpg" alt="">
+                                </div>
+                            </input>
+                        </label>
+                        <label class="shipping-option">
+                            <input type="radio" name="radio-target">
+                                <div class="radio-btn">
+                                    <img src="img/jne.jpg" alt="">
+                                </div>
+                            </input>
+                        </label>
+                        <label class="shipping-option">
+                            <input type="radio" name="radio-target">
+                                <div class="radio-btn">
+                                    <img src="img/ninja.jpg" alt="">
+                                </div>
+                            </input>
+                        </label>
+                        <label class="shipping-option">
+                            <input type="radio" name="radio-target">
+                                <div class="radio-btn">
+                                    <img src="img/posindo.jpg" alt="">
+                                </div>
+                            </input>
+                        </label>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="payment-order">
+            <div class="payment-order-box">
+                <div class="order-summary">
+                    <p>Order Summary - #91028123</p>
+                </div>
+                <div class="date-time">
+                    <div class="date">
+                        <span>Date</span>
+                        <p>08 August 2024</p>
+                    </div>
+                    <div class="time">
+                        <span>Time</span>
+                        <p>08:00 AM</p>
+                    </div>
+                </div>
+                <div class="product-qty">
+                    <div class="product-qty-judul">
+                        <span>Product</span>
+                        <span>Qty.</span>
+                    </div>
+                    <div class="product-qty-items">
+                        <p>Gamebot</p>
+                        <p>1</p>
+                    </div>
+                    <div class="product-qty-items">
+                        <p>Joystick</p>
+                        <p>3</p>
+                    </div>
+                </div>
+                <div class="subtotal-shipping">
+                    <div class="subtotal">
+                        <span>Subtotal</span>
+                        <p>$ 19.50</p>
+                    </div>
+                    <div class="shipping-cost">
+                        <span>Shipping</span>
+                        <p>$ 0.00</p>
+                    </div>
+                </div>
+                <div class="total-cost">
+                    <span>Total</span>
+                    <p>$ 19.50</p>
+                </div>
+
+                <!-- payment method -->
+                <div class="payment-method">
+                    <p>Payment method</p>
+                    <form action="#" class="payment-form">
+                        <select class="payment-option">
+                            <option value="option1">BNI Virtual Account</option>
+                            <option value="option2">Bank Mandiri</option>
+                            <option value="option3">Bank BCA</option>
+                            <option value="option4">Bank BSI</option>
+                            <option value="option5">CIMB Niaga</option>
+                            <option value="option6">Bank BRI</option>
+                        </select>
+                        <div class="payment-button">
+                            <button type="submit">Confirm</button>
+                        </div>                             
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
