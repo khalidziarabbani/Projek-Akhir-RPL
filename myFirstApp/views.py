@@ -96,9 +96,11 @@ def edit_image(request):
 
     return render(request, 'profile.html')
 
+@login_required(login_url='login')
 def payment(request):
     return render(request, 'payment.html')
 
+@login_required(login_url='login')
 def cart(request):
     return render(request, 'cart.html')
 

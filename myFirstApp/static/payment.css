@@ -1,6 +1,4 @@
 .payment {
-    width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -19,7 +17,6 @@
 
 .payment-box {
     width: 1293px;
-    height: 100%;
     padding-left: 40px;
     padding-right: 40px;
     padding-top: 30px;
@@ -54,8 +51,6 @@
 }
 
 .input-field-1 input {
-    height: 100%;
-    width: 100%;
     padding: 0 0px;
     border: none;
     outline: none;
@@ -80,9 +75,7 @@
 }
 
 .input-box {
-    width: 285.57px;
-    /* height: 56.94px; */
-    border: 1px solid #DEDBDB;
+    width: 100%;
     border-radius: 10px;
     display: flex;
     flex-direction: column;
@@ -104,17 +97,17 @@
 }
 
 .input-box input {
-    height: 100%;
+    height: 40px;
+    font-weight: 600;
     border: none;
     outline: none;
-    font-size: 13px;
-    border-bottom: 2px solid #D9D9D9;
+    font-size: 15px;
     color: black;
     justify-items: left;
-}
-
-.input-box input:valid {
-    border-bottom: none;
+    align-items: center;
+    padding: 5px;
+    border: 2px solid #D9D9D9;
+    border-radius: 5px;
 }
 
 .input-field-2 input::placeholder {

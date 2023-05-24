@@ -67,6 +67,7 @@
 
 .product-mid h3 {
     margin-top: 20px;
+    margin-bottom: 10px;
     font-weight: 700;
     font-size: 15px;
     line-height: 18px;
@@ -95,6 +96,7 @@
 .product-desc {
     font-weight: 500;
     font-size: 14px;
+    text-align: left;
 }
 
 .product-right {
@@ -167,7 +169,6 @@
 }
 
 .add-to-cart button {
-    padding: 10px 20px;
     color: #fff;
     border: none;
     border-radius: 20px;
