@@ -101,3 +101,19 @@ def payment(request):
 
 def cart(request):
     return render(request, 'cart.html')
+
+def categoryPage(request, category_id):
+    category = Categorie.objects.get(id=category_id)
+    product = Product.objects.filter(category=category)
+    context = {
+        "categories": category,
+        "products": product,
+        }
+    return render(request, 'categoryPage.html', context)
+
+def product(request, product_id):
+    product = Product.objects.get(id=product_id)
+    context = {
+        "products": product,
+        }
+    return render(request, 'product.html', context)

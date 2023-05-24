@@ -302,7 +302,7 @@ html {
 
 .item-content .ket-item h1 {
     font-weight: 700;
-    font-size: 20px;
+    font-size: 18px;
     line-height: 24px;
     text-align: left;
     color: #000000;
@@ -334,6 +334,10 @@ html {
     justify-content: center;
     align-items: center;
     display: inline-flex;
+}
+
+.item-button:hover {
+    background: #e40404;
 }
 
 .item-button p {

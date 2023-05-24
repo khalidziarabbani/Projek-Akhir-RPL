@@ -56,8 +56,11 @@
                                 <img src="{% if user.profile.image.url and user.profile.image %}{{ user.profile.image.url }}{% else %}{% static "img/user-default.jpg" %}{% endif %}" alt="">
                             </div>
                         </div>
+                        <div class="filename">
+                            <p id="fileName" style="display: none;"></p>
+                        </div> 
                         <div class="foto-profile-input">
-                            <input type="file" name="profile_image" id="profileImage" style="display: none;">
+                            <input type="file" name="profile_image" id="profileImage" style="display: none;" onchange="showFileName()" accept="image/*">
                             <input type="button" value="Edit" id="editButton2" onclick="enableEdit()">
                             <input type="submit" value="Save" id="saveButton2" style="display: none;">
                             <input type="button" value="Cancel" id="cancelButton" style="display: none;" onclick="cancelEdit()">
@@ -68,6 +71,14 @@
         </div>
 
         <script>
+            function showFileName() {
+                var fileInput = document.getElementById('profileImage');
+                var fileNameDisplay = document.getElementById('fileName');
+            
+                fileNameDisplay.innerText = fileInput.files[0].name;
+                fileNameDisplay.style.display = 'block';
+            }
+
             function enableEdit() {
                 var profileImageInput = document.getElementById('profileImage');
                 profileImageInput.style.display = 'block';
@@ -84,20 +95,24 @@
 
             function cancelEdit() {
                 var profileImageInput = document.getElementById('profileImage');
+                var fileNameDisplay = document.getElementById('fileName');
+            
                 profileImageInput.style.display = 'none';
-                
+                fileNameDisplay.style.display = 'none';
+            
                 var editButton = document.getElementById('editButton2');
                 editButton.style.display = 'block';
-                
+            
                 var saveButton = document.getElementById('saveButton2');
                 saveButton.style.display = 'none';
-                
+            
                 var cancelButton = document.getElementById('cancelButton');
                 cancelButton.style.display = 'none';
-                
+            
                 // Reset input file value (optional)
                 profileImageInput.value = '';
             }
+            
 
 // Simpan nilai awal input
 var initialValues = {};

@@ -24,7 +24,7 @@
 
         {% if request.user.is_authenticated %}
         <div class="user-icon">
-            <img src="{% static "img/user.png" %}" alt="">
+            <img src="{{ user.profile.image.url }}" alt="">
             <p>{{ request.user.username }}</p>
             <ul>
                 <li><a href="{% url 'profile' %}">Profile</a></li>

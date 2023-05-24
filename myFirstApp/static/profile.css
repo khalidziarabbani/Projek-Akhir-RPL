@@ -18,7 +18,7 @@ html {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center center;
+    
     margin-bottom: 50px;
     padding-left: 82px;
     padding-right: 82px;
@@ -94,7 +94,7 @@ html {
 }
 
 .garis-profile {
-    width: 10%;
+    width: 4%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -127,6 +127,12 @@ html {
     align-items: center;
 }
 
+.filename {
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
 .foto-container {
     display: flex;
     justify-content: center;
@@ -156,6 +162,7 @@ html {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    margin: 35px;
 }
 
 
@@ -163,11 +170,11 @@ html {
     margin-right: 5px;
     margin-left: 5px;
 }
-  
-  .foto-profile-input input[type="button"],
-  .foto-profile-input input[type="submit"],
-  .user-profile-button button[type="button"],
-  .user-profile-button input[type="submit"] {
+
+.foto-profile-input input[type="button"],
+.foto-profile-input input[type="submit"],
+.user-profile-button button[type="button"],
+.user-profile-button input[type="submit"] {
     width: 100px;
     height: 40px;
     font-size: 16px;
@@ -177,10 +184,11 @@ html {
     background-color: #30AFE4;
     cursor: pointer;
     margin-top: 30px;
-  }
-  
-  .foto-profile-input input[type="file"] {
+}
+
+.foto-profile-input input[type="file"] {
     width: 100px;
+    height: 40px;
     font-size: 16px;
     border: none;
     border-radius: 4px;
@@ -188,19 +196,45 @@ html {
     background-color: #30AFE4;
     cursor: pointer;
     margin-top: 30px;
-  }
-  .foto-profile-input input[type="button"]:hover,
-  .foto-profile-input input[type="submit"]:hover,
-  .foto-profile-input input[type="file"]:hover {
+    position: relative;
+    overflow: hidden;
+}
+
+.foto-profile-input input[type="file"]::before {
+    content: 'Choose File';
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #30AFE4;
+    color: #fff;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+
+.foto-profile-input input[type="file"]::-webkit-file-upload-button {
+    visibility: hidden;
+}
+
+.foto-profile-input input[type="button"]:hover,
+.foto-profile-input input[type="submit"]:hover,
+.foto-profile-input input[type="file"]:hover,
+.user-profile-button input[type="submit"]:hover,
+.user-profile-button button[type="button"]:hover {
     background-color: #0056b3;
-  }
-  
-  .foto-profile-input input[type="button"]:focus,
-  .foto-profile-input input[type="submit"]:focus {
+}
+
+.foto-profile-input input[type="button"]:focus,
+.foto-profile-input input[type="submit"]:focus {
     outline: none;
-  }
-  
-  .foto-profile-input input[type="file"] + label {
+}
+
+.foto-profile-input input[type="file"]+label {
     display: inline-block;
     width: 100px;
     height: 40px;
@@ -213,14 +247,12 @@ html {
     background-color: #007bff;
     cursor: pointer;
     margin-right: 10px;
-  }
-  
-  .foto-profile-input input[type="file"] + label:hover {
+}
+
+.foto-profile-input input[type="file"]+label:hover {
     background-color: #0056b3;
-  }
-  
-  .foto-profile-input input[type="file"] + label:focus {
+}
+
+.foto-profile-input input[type="file"]+label:focus {
     outline: none;
-  }
-  
-  
+}

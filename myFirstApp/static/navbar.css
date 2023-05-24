@@ -56,12 +56,14 @@ html {
 }
 
 .user-icon {
-    width: 20%;
+    /* width: 20%; */
     display: flex;
     align-items: center;
     flex-direction: row;
     position: relative;
 }
+
+
 
 .user-icon ul {
     display: none;
@@ -103,6 +105,10 @@ html {
 
 .user-icon img {
     margin-right: 8px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
 .user-icon p {

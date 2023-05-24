@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block title %}Product{% endblock title %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static '/product.css' %}">
+{% include 'navbar.html' %}
+
+<div class="product">
+    <div class="product-container">
+        <div class="product-path">
+            <a href={% url 'index' %}>Home </a>
+            > Produk > 
+            <a href="{% url 'category' products.category.id %}">{{products.category}}</a>
+            <span class="product-path-2"> > {{products.name}}</span>
+        </div>
+        <div class="product-content">
+            <div class="product-left">
+                <img src="{{products.image.url}}" alt="">
+            </div>
+            <div class="product-mid">
+                <h1>{{products.name}}</h1>
+                <p class="desc">{{products.description}}</p>
+                <p class="price">${{products.price}}</p>
+                <h3>About Product</h3>
+                <div class="about-product">
+                    <div class="keterangan">
+                        <p>Brand:</p>
+                        <p>Color:</p>
+                        <p>Conditon:</p>
+                        <p>Category:</p>
+                    </div>
+                    <div class="isi">
+                        <p>{{products.brand}}</p>
+                        <p>{{products.color}}</p>
+                        <p>{{products.condition}}</p>
+                        <p>{{products.category}}</p>
+                    </div>
+                </div>
+                <h3>Product Description</h3>
+                <div class="product-desc">
+                    {{products.specification}}
+                </div>
+            </div>
+            <div class="product-right">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <div class="set-order">Set Order</div>
+                    <img src="{{products.image.url}}" alt="">
+                    <div class="quantity">
+                        <label for="quantity" class="label">Qty.</label>
+                        <input type="number" name="quantity" id="quantity" min="1" value="1">
+                    </div>
+                    <input type="hidden" name="total_price" id="total-price-input">
+                    <div class="total-price">
+                        <span class="total-label">Total Price:</span>
+                        <span class="total-value">$0.00</span>
+                    </div>
+                    <div class="add-to-cart">
+                        <button type="submit">Add to Cart</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Mendapatkan elemen-elemen yang diperlukan
+    var quantityInput = document.getElementById('quantity');
+    var priceElement = document.querySelector('.price');
+    var totalLabelElement = document.querySelector('.total-label');
+    var totalValueElement = document.querySelector('.total-value');
+    var totalPriceInput = document.getElementById('total-price-input');
+    
+    // Mendapatkan harga dari elemen harga
+    var price = parseFloat(priceElement.innerText.replace('$', ''));
+    
+    // Menghitung total harga berdasarkan kuantitas yang dipilih
+    function calculateTotalPrice() {
+        var quantity = parseInt(quantityInput.value);
+        var totalPrice = price * quantity;
+    
+        // Menampilkan total harga dengan gaya yang berbeda
+        totalLabelElement.innerText = 'Total Price:';
+        totalValueElement.innerText = '$' + totalPrice.toFixed(2);
+    
+        // Mengatur nilai total harga ke dalam input tersembunyi
+        totalPriceInput.value = totalPrice.toFixed(2);
+    }
+    
+    // Memanggil fungsi calculateTotalPrice saat halaman dimuat dan ketika kuantitas berubah
+    document.addEventListener('DOMContentLoaded', calculateTotalPrice);
+    quantityInput.addEventListener('change', calculateTotalPrice);
+</script>
+
+{% endblock content %}

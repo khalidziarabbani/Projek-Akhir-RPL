@@ -35,7 +35,7 @@
         <div class="cat-judul">Categories</div>
         <div class="cat-list">
             {% for c in categories %}
-            <a href="#">
+            <a href="{% url 'category' c.pk %}">
                 <div class="cat-box">
                     {% if c.image %}
                     <img src="{{c.image.url}}" alt="">
@@ -55,22 +55,24 @@
         <div class="items">
             {% for p in products %}
             <div class="item-box 1">
-                <div class="product-image">
-                    <img src="{{p.image.url}}" alt="">
-                </div>
-                <div class="item-content">
-                    <div class="ket-item">
-                        <h1>{{p.name}}</h1>
-                        <h2>{{p.description}}</h2>
+                    <a href="{% url 'product' p.id %}">
+                    <div class="product-image">
+                        <img src="{{p.image.url}}" alt="">
                     </div>
-                    <div class="harga-item">${{p.price}}</div>
-                </div>
-                <a href="#">
-                    <div class="item-button">
-                        <p>Add to cart</p>
+                    <div class="item-content">
+                        <div class="ket-item">
+                            <h1>{{p.name}}</h1>
+                            <h2>{{p.description}}</h2>
+                        </div>
+                        <div class="harga-item">${{p.price}}</div>
                     </div>
+                    <a href="#">
+                        <div class="item-button">
+                            <p>Add to cart</p>
+                        </div>
+                    </a>
                 </a>
-            </div>
+                </div>
             {% endfor %}
         </div>
     </div>
