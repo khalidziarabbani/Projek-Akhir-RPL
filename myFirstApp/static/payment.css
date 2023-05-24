@@ -105,7 +105,7 @@
     color: black;
     justify-items: left;
     align-items: center;
-    padding: 5px;
+    padding: 10px;
     border: 2px solid #D9D9D9;
     border-radius: 5px;
 }
@@ -152,17 +152,17 @@
 }
 
 .radio-btn {
-    width: 90px;
-    height: 50px;
     border: 3px solid #908E8E;
+    border-radius: 5px;
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 5px;
+    overflow: hidden;
 }
 
-.radio-btn>img {
-    width: 90px;
+.radio-btn img {
+    object-fit: cover;
+    width: 100px;
     height: 50px;
 }
 

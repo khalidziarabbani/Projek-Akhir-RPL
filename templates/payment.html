@@ -57,34 +57,15 @@
                 <div class="shipping">
                     <p>Select a shipping method</p>
                     <div class="shipping-box">
+                        {% for e in expeditions %}
                         <label class="shipping-option">
                             <input type="radio" name="radio-target">
                                 <div class="radio-btn">
-                                    <img src="img/sicepat.jpg" alt="">
+                                    <img src="{{e.image.url}}" alt="">
                                 </div>
                             </input>
                         </label>
-                        <label class="shipping-option">
-                            <input type="radio" name="radio-target">
-                                <div class="radio-btn">
-                                    <img src="img/jne.jpg" alt="">
-                                </div>
-                            </input>
-                        </label>
-                        <label class="shipping-option">
-                            <input type="radio" name="radio-target">
-                                <div class="radio-btn">
-                                    <img src="img/ninja.jpg" alt="">
-                                </div>
-                            </input>
-                        </label>
-                        <label class="shipping-option">
-                            <input type="radio" name="radio-target">
-                                <div class="radio-btn">
-                                    <img src="img/posindo.jpg" alt="">
-                                </div>
-                            </input>
-                        </label>
+                        {% endfor %}
                     </div>
                 </div>
             </form>
@@ -127,6 +108,10 @@
                         <span>Shipping</span>
                         <p>$ 0.00</p>
                     </div>
+                    <div class="shipping-cost">
+                        <span>Tax</span>
+                        <p id="selectedTax">$ </p>
+                    </div>
                 </div>
                 <div class="total-cost">
                     <span>Total</span>
@@ -137,13 +122,10 @@
                 <div class="payment-method">
                     <p>Payment method</p>
                     <form action="#" class="payment-form">
-                        <select class="payment-option">
-                            <option value="option1">BNI Virtual Account</option>
-                            <option value="option2">Bank Mandiri</option>
-                            <option value="option3">Bank BCA</option>
-                            <option value="option4">Bank BSI</option>
-                            <option value="option5">CIMB Niaga</option>
-                            <option value="option6">Bank BRI</option>
+                        <select class="payment-option" id="paymentMethodSelect">
+                            {% for method in payment_methods %}
+                                <option value="{{ method.tax }}">{{ method.name }}</option>
+                            {% endfor %}
                         </select>
                         <div class="payment-button">
                             <button type="submit">Confirm</button>
@@ -154,4 +136,17 @@
         </div>
     </div>
 </div>
+
+
+
+<script>
+    const paymentMethodSelect = document.getElementById('paymentMethodSelect');
+    const selectedTax = document.getElementById('selectedTax');
+    
+        paymentMethodSelect.addEventListener('change', function() {
+        const selectedOption = paymentMethodSelect.options[paymentMethodSelect.selectedIndex];
+        const tax = selectedOption.value;
+        selectedTax.textContent = '$ ' + tax;
+        });
+</script>
 {% endblock content %}

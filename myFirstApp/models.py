@@ -32,3 +32,16 @@ class Profile(models.Model):
     nickname = models.CharField(max_length=200, null=True, blank=True)
     def __str__(self):
         return self.User.username
+    
+class Expedition(models.Model):
+    name = models.CharField(max_length=200, help_text='Enter a expedition (e.g. JNE, TIKI, etc.)', null=True, blank=True)
+    image = models.ImageField(upload_to='images/expedition/', null=True, blank=True)
+    price = models.FloatField(default=0, null=True, blank=True)
+    def __str__(self):
+        return self.name
+    
+class Payment_method(models.Model):
+    name = models.CharField(max_length=200, null=True, blank=True)
+    tax = models.FloatField(default=0, null=True, blank=True)
+    def __str__(self):
+        return self.name

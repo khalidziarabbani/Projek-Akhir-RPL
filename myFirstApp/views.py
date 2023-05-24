@@ -6,7 +6,7 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 # add categories from database
-from .models import Categorie , Product, Profile
+from .models import Categorie , Product, Profile, Expedition, Payment_method
 
 def index(request):
     categorie = Categorie.objects.all()
@@ -98,7 +98,13 @@ def edit_image(request):
 
 @login_required(login_url='login')
 def payment(request):
-    return render(request, 'payment.html')
+    expedition = Expedition.objects.all()
+    payment_method = Payment_method.objects.all()
+    context = {
+        "expeditions": expedition,
+        "payment_methods": payment_method,
+        }
+    return render(request, 'payment.html', context)
 
 @login_required(login_url='login')
 def cart(request):
