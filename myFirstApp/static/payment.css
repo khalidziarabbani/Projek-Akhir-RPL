@@ -272,7 +272,8 @@
 }
 
 .subtotal,
-.shipping-cost {
+.shipping-cost,
+.tax-cost {
     width: 100%;
     height: 20px;
     display: flex;
@@ -281,7 +282,8 @@
 }
 
 .subtotal p,
-.shipping-cost p {
+.shipping-cost p,
+.tax-cost p {
     font-weight: 500;
     font-size: 15px;
     color: #868686;
