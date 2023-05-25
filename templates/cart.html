@@ -5,5 +5,72 @@
 <link rel="stylesheet" href="{% static 'cart.css' %}">
 
 {% include 'navbar.html' %}
+<div class="cartpage">
+    <h1>My Cart</h1>
+    <div class="cart">
+        
+        <div class="cart-list">
+            {% for item in items %}
+            <div class="cart-box">
+                <div class="cart-box-content">
+                    <img src="{{item.product.image.url}}" alt="">
+                    <div class="product">
+                        <h2>{{ item.product.name }}</h2>
+                        <p class="desc">{{item.product.description}}</p>
+                        <p class="price">${{item.product.price}}</p>
+                        <div class="qty-delete">
+                            <div class="qty">
+                                <button data-product="{{item.id}}"  class="qty-btn update-cart2" data-action="remove" >-</button>
+                                <input id="qtyInput" type="text" min="1" value="{{item.quantity}}" readonly> </input>
+                                <button data-product="{{item.id}}"  class="qty-btn update-cart2" data-action="add"  >+</button>
+                            </div>
+                            <button data-product="{{item.id}}" class="delete-btn update-cart2" data-action="delete_this_item" >Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
 
+
+        <div class="payment-box">
+            <h2>Payment</h2>
+            <div class="title-pay">
+                <p>Product name</p>
+                <p>Price</p>
+            </div>
+            {% for item in items %}
+            <div class="product-pay">
+                <p>{{item.product.name}}</p>
+                <p>${{item.get_total}}</p>
+            </div>
+            {% endfor %}
+            <div class="total-price">
+                <p>Total</p>
+                <p>${{order.get_cart_total}}</p>
+            </div>
+            <div class="pay-button">
+                <input type="submit" value="Continue to payment" onclick="window.location.href='{% url 'payment' %}'" > 
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const qtyInput = document.getElementById('qtyInput');
+    
+        function decreaseQty() {
+        let currentValue = parseInt(qtyInput.value);
+        if (currentValue > 1) {
+            currentValue--;
+            qtyInput.value = currentValue;
+        }
+        }
+    
+        function increaseQty() {
+        let currentValue = parseInt(qtyInput.value);
+        currentValue++;
+        qtyInput.value = currentValue;
+        }
+</script>
 {% endblock content %}

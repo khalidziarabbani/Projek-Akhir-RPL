@@ -1,0 +1,200 @@
+.cart {
+    display: inline-block;
+    margin-top: 23px;
+    margin-bottom: 23px;
+    margin-right: 49px;
+}
+
+.cart-icon .cart-number {
+    font-size: 20px;
+    line-height: 24px;
+    color: #E53433;
+}
+
+.user-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.user-icon i {
+    margin-right: 8px;
+}
+
+.user-icon a {
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 18px;
+    color: #E53433;
+}
+
+.cartpage {
+    padding: 29px 100px;
+}
+
+.cart {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.cart-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.cart-box {
+    padding: 20px 20px;
+    box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    width: 685px;
+}
+
+.cart-box-content img {
+    width: 170px;
+    height: 181.72px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.cart-box-content {
+    width: 100%;
+    gap: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.product {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.product h2 {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 24px;
+    margin-bottom: 5px;
+}
+
+.product .desc {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    margin-bottom: 10px;
+}
+
+.product .price {
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    color: #E53433;
+    margin-bottom: 80px;
+}
+
+.qty-delete {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    /* Mengatur konten secara vertikal tengah */
+    margin-bottom: 10px;
+    /* Jarak bawah antar elemen */
+}
+
+.qty {
+    display: flex;
+    align-items: center;
+    /* Mengatur konten secara vertikal tengah */
+}
+
+.qty-btn {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    background-color: #ccc;
+    cursor: pointer;
+}
+
+.qty-btn:hover {
+    background-color: #aaa;
+}
+
+#qtyInput {
+    width: 40px;
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin: 0 5px;
+}
+
+.delete-btn {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    background-color: #ccc;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.delete-btn:hover {
+    background-color: #aaa;
+}
+
+
+.payment-box {
+    padding: 30px;
+    width: 327px;
+    box-shadow: 5px 5px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    height: 100%;
+}
+
+.payment-box h2 {
+    margin-bottom: 10px;
+    font-weight: 600;
+    font-size: 32px;
+}
+
+.title-pay,
+.product-pay,
+.total-price {
+    display: flex;
+    justify-content: space-between;
+}
+
+.title-pay {
+    margin-bottom: 3px;
+    font-weight: 600;
+}
+
+.product-pay {
+    border-bottom: 1px dashed #868686;
+    padding-bottom: 2px;
+    margin-bottom: 20px;
+    font-size: 13px;
+}
+
+.pay-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pay-button input {
+    padding: 10px;
+    background: #E53433;
+    border-radius: 10px;
+    border: none;
+    color: white;
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.pay-button input:hover {
+    cursor: pointer;
+    background: #ba1414;
+}

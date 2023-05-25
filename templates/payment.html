@@ -18,31 +18,31 @@
                 <div class="input-field-2">
                     <div class="input-box">
                         <p>Full Name</p>
-                        <input type="text" value="{{ user.profile.fullname }}" required>
+                        <input type="text" name="full_name" value="{{ user.profile.fullname }}" required>
                     </div>
                     <div class="input-box">
                         <p>Email</p>
-                        <input type="text" value="{{ user.email }}" required>
+                        <input type="text" name="email" value="{{ user.email }}" required>
                     </div>
                 </div>
                 <div class="input-field-2">
                     <div class="input-box">
                         <p>Address</p>
-                        <input type="text" value="{{ user.profile.address }}" required>
+                        <input type="text"  name="adress" value="{{ user.profile.address }}" required>
                     </div>
                     <div class="input-box">
                         <p>Phone</p>
-                        <input type="text" value="{{ user.profile.phone }}" required>
+                        <input type="text" name="phone" value="{{ user.profile.phone }}" required>
                     </div>
                 </div>
                 <div class="input-field-3">
                     <div class="input-box">
                         <p>City</p>
-                        <input type="text" required>
+                        <input name="city" type="text" required>
                     </div>
                     <div class="input-box">
                         <p>Province</p>
-                        <input type="text" required>
+                        <input name="province" type="text" required>
                     </div>
                     <div class="input-box">
                         <p>Country</p>
@@ -50,7 +50,7 @@
                     </div>
                     <div class="input-box">
                         <p>ZIP Code</p>
-                        <input type="text" required>
+                        <input name="zipcode" type="text" required>
                     </div>
                 </div>
                 
@@ -102,20 +102,20 @@
                     <div class="subtotal-shipping">
                         <div class="subtotal">
                             <span>Subtotal</span>
-                            <p class="subtotal-value">$ 19.50</p>
+                            <p class="subtotal-value">$19.50</p>
                         </div>
                         <div class="shipping-cost">
                             <span>Shipping</span>
-                            <p class="shipping-value">$ 0.00</p>
+                            <p class="shipping-value">$0.00</p>
                         </div>                    
                         <div class="shipping-cost">
                             <span>Tax</span>
-                            <p class="tax-value">$ 0.00</p>
+                            <p class="tax-value">$0.00</p>
                         </div>
                     </div>
                     <div class="total-cost">
                         <span>Total</span>
-                        <p class="total-value">$ 0.00</p>
+                        <input class="total-value" value="$0.00" readonly>
                     </div>
                     
 
@@ -123,8 +123,8 @@
                     <div class="payment-method">
                         <p>Payment method</p>
                         <div class="payment-form">
-                            <select class="payment-option" id="paymentMethodSelect">
-                                <option value="">Select payment method</option>
+                            <select class="payment-option" id="paymentMethodSelect" name="payment_method">
+                                <option value="" disabled selected>Select payment method</option>
                                 {% for method in payment_methods %}
                                     <option value="{{ method.tax }}">{{ method.name }}</option>
                                 {% endfor %}
@@ -146,37 +146,38 @@
     const shippingValue = document.querySelector('.shipping-value');
     const taxValue = document.querySelector('.tax-value');
     const totalValue = document.querySelector('.total-value');
-
+  
     const updateTotal = () => {
-        const subtotal = parseFloat(subtotalValue.textContent.slice(1));
-        const shipping = parseFloat(shippingValue.textContent.slice(1));
-        const tax = parseFloat(taxValue.textContent.slice(1));
-
-        const total = subtotal + shipping + tax;
-
-        totalValue.textContent = '$ ' + total.toFixed(2);
+      const subtotal = parseFloat(subtotalValue.textContent.slice(1));
+      const shipping = parseFloat(shippingValue.textContent.slice(1));
+      const tax = parseFloat(taxValue.textContent.slice(1));
+  
+      const total = subtotal + shipping + tax;
+  
+      totalValue.value = '$' + total.toFixed(2);
     };
-
+  
     // Event listener untuk update total saat opsi pengiriman berubah
     {% for e in expeditions %}
-        const shippingMethodSelect{{ forloop.counter }} = document.getElementById('shippingMethodSelect{{ forloop.counter }}');
-        shippingMethodSelect{{ forloop.counter }}.addEventListener('change', function() {
-            const shippingPrice = parseFloat(shippingMethodSelect{{ forloop.counter }}.value);
-            shippingValue.textContent = '$ ' + shippingPrice.toFixed(2);
-            updateTotal();
-        });
+    const shippingMethodSelect{{ forloop.counter }} = document.getElementById('shippingMethodSelect{{ forloop.counter }}');
+    shippingMethodSelect{{ forloop.counter }}.addEventListener('change', function() {
+      const shippingPrice = parseFloat(shippingMethodSelect{{ forloop.counter }}.value);
+      shippingValue.textContent = '$' + shippingPrice.toFixed(2);
+      updateTotal();
+    });
     {% endfor %}
-
+  
     // Event listener untuk update total saat opsi pembayaran berubah
     const paymentMethodSelect = document.getElementById('paymentMethodSelect');
     paymentMethodSelect.addEventListener('change', function() {
-        const tax = parseFloat(paymentMethodSelect.options[paymentMethodSelect.selectedIndex].value);
-        taxValue.textContent = '$ ' + tax.toFixed(2);
-        updateTotal();
+      const tax = parseFloat(paymentMethodSelect.value);
+      taxValue.textContent = '$' + tax.toFixed(2);
+      updateTotal();
     });
-
+  
     // Panggil fungsi updateTotal() saat halaman dimuat untuk menginisialisasi total
     updateTotal();
+  
 </script>
 
 {% endblock content %}

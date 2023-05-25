@@ -129,16 +129,28 @@
     margin-bottom: 10px;
 }
 
+.qty-btn {
+    padding: 5px 10px;
+    font-size: 14px;
+    border: none;
+    background-color: #ccc;
+    cursor: pointer;
+}
+
+.qty-btn:hover {
+    background-color: #aaa;
+}
+
 .quantity .label {
     margin-right: 10px;
 }
 
-.quantity input[type="number"] {
-    width: 45px;
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+.quantity input {
+    width: 40px;
     text-align: center;
+    border: 1px solid #ccc;
+    padding: 5px;
+    margin: 0 5px;
 }
 
 .total-price {
