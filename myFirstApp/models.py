@@ -48,12 +48,12 @@ class Payment_method(models.Model):
     
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    date_ordered = models.DateTimeField(null=True, blank=True)
+    order_number = models.CharField(max_length=10, unique=True, null=True, default=None)
     complete = models.BooleanField(default=False, null=True, blank=True)
-    total_price = models.FloatField(default=0, null=True, blank=True)
+    total_cost = models.FloatField(default=0, null=True, blank=True)
     expedition = models.ForeignKey(Expedition, on_delete=models.CASCADE, null=True)
     payment_method = models.ForeignKey(Payment_method, on_delete=models.CASCADE, null=True)
-    
     full_name = models.CharField(max_length=200, null=True, blank=True)
     phone = models.CharField(max_length=200, null=True, blank=True)
     address = models.CharField(max_length=200, null=True, blank=True)
@@ -76,8 +76,17 @@ class Order(models.Model):
     
     @property
     def get_total_payment(self):
-        total = self.get_cart_total + self.expedition.price
+        total = self.get_cart_total() + self.expedition.price
         return total
+    
+    def save(self, *args, **kwargs):
+        if not self.order_number:
+            self.order_number = self.generate_order_number()
+        super().save(*args, **kwargs)
+    
+    def generate_order_number(self):
+        order_number = str(random.randint(100000, 999999))
+        return order_number
 
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
@@ -92,4 +101,17 @@ class OrderItem(models.Model):
     def get_total(self):
         total = self.product.price * self.quantity
         return total
+
+
+class Shipment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
+    city = models.CharField(max_length=200, null=False)
+    province = models.CharField(max_length=200, null=False)
+    zipcode = models.CharField(max_length=200, null=False)
+    date_added = models.DateTimeField(auto_now_add=True)
+    tracking_number = models.CharField(max_length=200, null=True, blank=True)
+    delivery_address = models.CharField(max_length=200, null=True, blank=True)
     
+    def __str__(self):
+        return self.delivery_address

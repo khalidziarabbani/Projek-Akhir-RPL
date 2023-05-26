@@ -2,17 +2,18 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from django.db.models import Sum
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 from django.contrib import messages
-
+import random
 import json
 from django.http import JsonResponse
 # add categories from database
-from .models import Categorie , Product, Profile, Expedition, Payment_method, Order, OrderItem
+from .models import Categorie , Product, Profile, Expedition, Payment_method, Order, OrderItem, Shipment
 
 def index(request):
     categories = Categorie.objects.all()
@@ -23,6 +24,7 @@ def index(request):
     }
     return render(request, 'index.html', context)
 
+@login_required(login_url='login')
 def add_to_cart(request, product_id):
     if request.method == 'POST':
         product = Product.objects.get(id=product_id)
@@ -120,58 +122,71 @@ def edit_image(request):
 
     return render(request, 'profile.html')
 
-# def calculate_subtotal(order_items):
-#     subtotal = 0
-#     for item in order_items:
-#         subtotal += item.product.price
-#     return subtotal
-
 @login_required(login_url='login')
 def payment(request):
     if request.method == 'GET':
         expedition = Expedition.objects.all()
         payment_method = Payment_method.objects.all()
-        orders = Order.objects.filter(user=request.user)
-        order_items = OrderItem.objects.filter(order__in=orders)
+        user = request.user
+        order, created = Order.objects.get_or_create(user=user, complete=False)
+        order_items = order.orderitem_set.all()
+        order.date_ordered = timezone.now()  # Assign current datetime to order.date
+        order.save()
+        order_number = random.randint(100000, 999999)
+        if not order_items:
+            return redirect('cart')
+
+        subtotal = sum(item.product.price for item in order_items)
+
         context = {
             "expeditions": expedition,
             "payment_methods": payment_method,
             "order_items": order_items,
+            "subtotal": subtotal,
+            "order": order,  # Add the 'order' object to the context
+            "order_number": order_number,
         }
         return render(request, 'payment.html', context)
     elif request.method == 'POST':
         user = request.user
+        delivery_address = request.POST['delivery_address']
         full_name = request.POST['full_name']
-        phone = request.POST['phone']
-        address = request.POST['address']
         email = request.POST['email']
+        address = request.POST['address']
+        phone = request.POST['phone']
         city = request.POST['city']
         province = request.POST['province']
         zipcode = request.POST['zipcode']
-        delivery_address = request.POST['delivery_address']
-        payment_method_id = request.POST.get('shipping_method')
-        
+        total_cost = float(request.POST['total_cost'].replace('$', ''))
+
         expedition_id = request.POST.get('shipping_method')
-        expedition = get_object_or_404(Expedition, id=expedition_id)
-        
-        # Create the order and assign the expedition
-        order = Order.objects.create(
-            user=user,
-            full_name=full_name,
-            phone=phone,
-            address=address,
-            email=email,
+        expedition = get_object_or_404(Expedition, price=expedition_id)  # Ganti 'id' dengan 'price' jika 'price' adalah kolom yang sesuai dalam model Expedition
+        payment_method_id = request.POST.get('payment_method')
+        payment_method = get_object_or_404(Payment_method, tax=payment_method_id)
+
+        order, created = Order.objects.get_or_create(user=user, complete=False)
+        order.full_name = full_name
+        order.email = email
+        order.address = address
+        order.phone = phone
+        order.expedition = expedition
+        order.payment_method = payment_method
+        order.total_cost = total_cost
+        order.complete = True  # Atur pesanan sebagai 'complete'
+        order.save()
+
+        Shipment.objects.create(
+            order=order,
+            delivery_address=delivery_address,
             city=city,
             province=province,
             zipcode=zipcode,
-            delivery_address=delivery_address,
-            payment_method_id=payment_method_id,
-            expedition=expedition  # Assign the expedition object to the order
         )
         
-        # Continue with your code to process and save data to the database
-        
-        return render(request, 'confirmation.html')
+        return render(request, 'purchase.html')
+
+
+
         
 
 @login_required(login_url='login')
@@ -179,8 +194,15 @@ def cart(request):
     user = request.user
     order, created = Order.objects.get_or_create(user=user, complete=False)
     items = order.orderitem_set.all()
-    cartItems = order.get_total_items    
-    context = {'items': items, 'order': order, 'cartItems': cartItems}
+    cartItems = order.get_total_items
+    subtotal = order.get_cart_total
+
+    context = {
+        'items': items,
+        'order': order,
+        'cartItems': cartItems,
+        'subtotal': subtotal,
+    }
 
     return render(request, 'cart.html', context)
 
@@ -215,7 +237,7 @@ def product(request, product_id):
                 quantity=quantity,
             )
         
-        return redirect('product', product_id=product.id)
+        return redirect('cart')
     elif request.method == 'GET':
         product = Product.objects.get(id=product_id)
         context = {

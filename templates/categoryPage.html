@@ -34,11 +34,13 @@
                         </div>
                         <div class="harga-item">${{p.price}}</div>
                     </div>
-                    <a href="#">
+                    <form method="POST" action="{% url 'add_to_cart' p.id %}">
+                        {% csrf_token %}
                         <div class="item-button">
-                            <p>Add to cart</p>
+                            <button type="submit">Add to cart</button>
                         </div>
-                    </a>
+                        <input type="hidden" name="quantity" value="1">
+                    </form>
                 </a>
                 </div>
             {% endfor %}
