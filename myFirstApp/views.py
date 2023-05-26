@@ -125,9 +125,9 @@ def edit_image(request):
 @login_required(login_url='login')
 def payment(request):
     if request.method == 'GET':
+        user = request.user
         expedition = Expedition.objects.all()
         payment_method = Payment_method.objects.all()
-        user = request.user
         order, created = Order.objects.get_or_create(user=user, complete=False)
         order_items = order.orderitem_set.all()
         order.date_ordered = timezone.now()  # Assign current datetime to order.date
@@ -176,18 +176,15 @@ def payment(request):
         order.save()
 
         Shipment.objects.create(
+            user=user,
             order=order,
             delivery_address=delivery_address,
             city=city,
             province=province,
             zipcode=zipcode,
         )
-        
-        return render(request, 'purchase.html')
+        return redirect('purchase')
 
-
-
-        
 
 @login_required(login_url='login')
 def cart(request):

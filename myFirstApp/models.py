@@ -114,4 +114,7 @@ class Shipment(models.Model):
     delivery_address = models.CharField(max_length=200, null=True, blank=True)
     
     def __str__(self):
-        return self.delivery_address
+        if self.user is not None:
+            return self.user.username
+        else:
+            return "No User Assigned"
