@@ -340,16 +340,15 @@ html {
     background: #e40404;
 }
 
-.item-button p {
+.item-button button {
     font-weight: 400;
     font-size: 13px;
-    line-height: 16px;
     text-align: center;
     color: #FFFFFF;
-    justify-content: center;
-    align-items: center;
-    display: flex;
-    margin: auto;
+    border: none;
+    background: none;
+    cursor: pointer;
+
 }
 
 

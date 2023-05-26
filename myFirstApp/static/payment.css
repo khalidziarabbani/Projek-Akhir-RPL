@@ -358,3 +358,7 @@
     color: #FFFFFF;
     cursor: pointer;
 }
+
+.payment-button button:hover {
+    background: #da0505;
+}

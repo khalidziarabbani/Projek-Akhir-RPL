@@ -10,7 +10,7 @@ for(var i = 0; i < updateBtns2.length; i++){
             console.log('Not logged in')
             alert('You need to login first to add items to your cart.')
         }else{
-           updateUserOrder2(productId, action)
+            updateUserOrder2(productId, action)
         }
     })
 }

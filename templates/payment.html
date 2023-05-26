@@ -13,7 +13,7 @@
             <div class="payment-box-form">
                 <div class="input-field-1">
                     <img src="{% static 'img/car-cart.png' %}" alt="">
-                    <input type="text" placeholder="Delivery Address" required>
+                    <input type="text" name="delivery_address" placeholder="Delivery Address" required>
                 </div>
                 <div class="input-field-2">
                     <div class="input-box">
@@ -28,7 +28,7 @@
                 <div class="input-field-2">
                     <div class="input-box">
                         <p>Address</p>
-                        <input type="text"  name="adress" value="{{ user.profile.address }}" required>
+                        <input type="text"  name="address" value="{{ user.profile.address }}" required>
                     </div>
                     <div class="input-box">
                         <p>Phone</p>
@@ -59,7 +59,7 @@
                     <div class="shipping-box">
                         {% for e in expeditions %}
                             <label class="shipping-option">
-                                <input type="radio" id="shippingMethodSelect{{ forloop.counter }}" value="{{ e.price }}" name="radio-select">
+                                <input type="radio" id="shippingMethodSelect{{ forloop.counter }}" value="{{ e.price }}" data-expedition-id="{{ e.id }}" name="shipping_method">
                                 <div class="radio-btn">
                                     <img src="{{ e.image.url }}" alt="">
                                 </div>
@@ -90,19 +90,17 @@
                             <span>Product</span>
                             <span>Qty.</span>
                         </div>
+                        {% for o in order_items %}
                         <div class="product-qty-items">
-                            <p>Gamebot</p>
-                            <p>1</p>
+                            <p>{{o.product.name}}</p>
+                            <p>${{o.product.price}}</p>
                         </div>
-                        <div class="product-qty-items">
-                            <p>Joystick</p>
-                            <p>3</p>
-                        </div>
+                        {% endfor %}
                     </div>
                     <div class="subtotal-shipping">
                         <div class="subtotal">
                             <span>Subtotal</span>
-                            <p class="subtotal-value">$19.50</p>
+                            <p class="subtotal-value">$19.00</p>
                         </div>
                         <div class="shipping-cost">
                             <span>Shipping</span>
@@ -146,38 +144,38 @@
     const shippingValue = document.querySelector('.shipping-value');
     const taxValue = document.querySelector('.tax-value');
     const totalValue = document.querySelector('.total-value');
-  
+
     const updateTotal = () => {
-      const subtotal = parseFloat(subtotalValue.textContent.slice(1));
-      const shipping = parseFloat(shippingValue.textContent.slice(1));
-      const tax = parseFloat(taxValue.textContent.slice(1));
-  
-      const total = subtotal + shipping + tax;
-  
-      totalValue.value = '$' + total.toFixed(2);
+    const subtotal = parseFloat(subtotalValue.textContent.slice(1));
+    const shipping = parseFloat(shippingValue.textContent.slice(1));
+    const tax = parseFloat(taxValue.textContent.slice(1));
+
+    const total = subtotal + shipping + tax;
+
+    totalValue.value = '$' + total.toFixed(2);
     };
-  
+
     // Event listener untuk update total saat opsi pengiriman berubah
     {% for e in expeditions %}
     const shippingMethodSelect{{ forloop.counter }} = document.getElementById('shippingMethodSelect{{ forloop.counter }}');
     shippingMethodSelect{{ forloop.counter }}.addEventListener('change', function() {
-      const shippingPrice = parseFloat(shippingMethodSelect{{ forloop.counter }}.value);
-      shippingValue.textContent = '$' + shippingPrice.toFixed(2);
-      updateTotal();
+    const shippingPrice = parseFloat(shippingMethodSelect{{ forloop.counter }}.value);
+    shippingValue.textContent = '$' + shippingPrice.toFixed(2);
+    updateTotal();
     });
     {% endfor %}
-  
+
     // Event listener untuk update total saat opsi pembayaran berubah
     const paymentMethodSelect = document.getElementById('paymentMethodSelect');
     paymentMethodSelect.addEventListener('change', function() {
-      const tax = parseFloat(paymentMethodSelect.value);
-      taxValue.textContent = '$' + tax.toFixed(2);
-      updateTotal();
+    const tax = parseFloat(paymentMethodSelect.value);
+    taxValue.textContent = '$' + tax.toFixed(2);
+    updateTotal();
     });
-  
+
     // Panggil fungsi updateTotal() saat halaman dimuat untuk menginisialisasi total
     updateTotal();
-  
 </script>
+
 
 {% endblock content %}
