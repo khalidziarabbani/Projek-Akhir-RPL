@@ -92,11 +92,19 @@
                         <div class="product-qty-judul">
                             <span>Product</span>
                             <span>Qty.</span>
+                            <span>Price</span>
                         </div>
                         {% for o in order_items %}
                         <div class="product-qty-items">
-                            <p>{{o.product.name}}</p>
-                            <p>${{o.product.price}}</p>
+                            <div class="product-name">
+                                <p>{{o.product.name}}</p>
+                            </div>
+                            <div class="product-quantity">
+                                <p>{{o.quantity}}</p>
+                            </div>
+                            <div class="product-price">
+                                <p>${{o.product.price}}</p>
+                            </div>
                         </div>
                         {% endfor %}
                     </div>

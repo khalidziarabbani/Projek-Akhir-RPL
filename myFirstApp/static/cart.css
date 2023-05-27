@@ -171,11 +171,17 @@
     font-weight: 600;
 }
 
-.product-pay {
+.product-pay-box {
     border-bottom: 1px dashed #868686;
     padding-bottom: 2px;
     margin-bottom: 20px;
     font-size: 13px;
+    flex-direction: column;
+    display: flex;
+}
+
+.product-pay {
+    margin-bottom: 5px;
 }
 
 .pay-button {

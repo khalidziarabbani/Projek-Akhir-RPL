@@ -136,7 +136,7 @@ def payment(request):
         if not order_items:
             return redirect('cart')
 
-        subtotal = sum(item.product.price for item in order_items)
+        subtotal = order.get_cart_total
 
         context = {
             "expeditions": expedition,

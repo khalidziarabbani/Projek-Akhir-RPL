@@ -12,11 +12,6 @@
         <li><a href="#about">About</a></li>
     </div>
 
-    {% comment %} <a href="{% url 'cart' %}" class="cart-icon">
-        <img src="{% static 'img/keranjang.png' %}"></img>
-        <span id="cartItemCount" class="cart-item-count">{{ cart_item_count }}</span>
-    </a> {% endcomment %}
-
     <div class="user-icon">
         {% if request.user.is_anonymous%}
             <a href="{% url 'login' %}">
