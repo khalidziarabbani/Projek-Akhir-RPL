@@ -30,6 +30,14 @@ class Profile(models.Model):
     address = models.CharField(max_length=200, null=True, blank=True)
     fullname = models.CharField(max_length=200, null=True, blank=True)
     nickname = models.CharField(max_length=200, null=True, blank=True)
+    
+    @property
+    def cartCount(self):
+        try:
+            return Order.objects.get(user=self.User).orderitem_set.all().count()
+        except:
+            return 0
+        
     def __str__(self):
         return self.User.username
     
@@ -43,6 +51,7 @@ class Expedition(models.Model):
 class Payment_method(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)
     tax = models.FloatField(default=0, null=True, blank=True)
+    image = models.ImageField(upload_to='images/payment_method/', null=True, blank=True)
     def __str__(self):
         return self.name
     
@@ -58,6 +67,7 @@ class Order(models.Model):
     phone = models.CharField(max_length=200, null=True, blank=True)
     address = models.CharField(max_length=200, null=True, blank=True)
     email = models.CharField(max_length=200, null=True, blank=True)
+    virtual_account = models.CharField(max_length=200, null=True, blank=True)
     
     def __str__(self):
         return str(self.id)
@@ -76,7 +86,11 @@ class Order(models.Model):
     
     @property
     def get_total_payment(self):
-        total = self.get_cart_total() + self.expedition.price
+        total = self.get_cart_total
+        if self.expedition:
+            total += self.expedition.price
+        if self.payment_method:
+            total += self.payment_method.tax
         return total
     
     def save(self, *args, **kwargs):

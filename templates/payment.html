@@ -73,7 +73,7 @@
             <div class="payment-order">
                 <div class="payment-order-box">
                     <div class="order-summary">
-                        <p>Order Summary - #{{ order_number }}</p>
+                        <p>Order - #{{ order_number }}</p>
                         <input type="hidden" name="order_number" value="{{ order_number }}">
                     </div>
                     <div class="date-time">
@@ -139,17 +139,55 @@
                                 {% endfor %}
                             </select>
                             <div class="payment-button">
-                                <button type="submit">Confirm</button>
-                            </div>                             
+                                <button id="myBtn" disabled>Confirm</button>
+                            </div>
+                            
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    {% comment %} modal content {% endcomment %}
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <div class="judul"><p>Pay now :</p></div>
+            <div class="payment-content">
+                <div class="content-order">
+                    <p>Order - #{{ order_number }}</p>
+                </div>
+                <p>Virtual Account Number :</p>
+                <div class="virtual-box">
+                    <p>
+                        {% with virtual_account|stringformat:"s" as virtual_account_str %}
+                            {% for i in virtual_account_str %}
+                                {{ i }}
+                                {% if forloop.counter|stringformat:"s"|divisibleby:"4" and not forloop.last %}
+                                    -
+                                {% endif %}
+                            {% endfor %}
+                        {% endwith %}
+                    </p>
+                </div>
+            </div>
+            <div class="payment-deadline">
+                <p>{{ order.date_ordered|date:"d F Y" }}</p>
+                <p>{{ order.date_ordered|time:"H:i A" }}</p>
+            </div>
+            <div class="nowlater-button">
+                <div class="payment-button">
+                    <button class="later" id="laterButton" name="type" type="submit" value="later">pay later</button>
+                </div>
+                <div class="payment-button">
+                    <button  id="nowButton" name="type" type="submit" value="now">pay now</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </form>
 
-
+{% comment %} update total price {% endcomment %}
 <script>
     const subtotalValue = document.querySelector('.subtotal-value');
     const shippingValue = document.querySelector('.shipping-value');
@@ -188,6 +226,44 @@
     updateTotal();
 </script>
 
+
+
+{% comment %} Munculkan modals {% endcomment %}
+<script>
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+
+    // When the user clicks on the button, open the modal
+    btn.onclick = function(event) {
+        event.preventDefault(); // Mencegah perilaku bawaan tombol
+        modal.style.display = "block";
+    }
+</script>
+
+{% comment %} Agar tombol tidak bisa diklik {% endcomment %}
+<script>
+    // Mendapatkan elemen tombol "Confirm" dan input
+    var confirmButton = document.getElementById('myBtn');
+    var inputs = document.querySelectorAll('input[required]');
+
+    // Menambahkan event listener pada setiap input
+    inputs.forEach(function(input) {
+        input.addEventListener('input', function() {
+            var allInputsFilled = Array.from(inputs).every(function(input) {
+                return input.value.trim() !== '';
+            });
+
+            // Mengatur atribut disabled pada tombol "Confirm" sesuai kondisi
+            confirmButton.disabled = !allInputsFilled;
+        });
+    });
+
+    // Mengatur atribut disabled pada tombol saat halaman pertama kali dimuat
+    confirmButton.disabled = true;
+</script>
 
 
 {% endblock content %}

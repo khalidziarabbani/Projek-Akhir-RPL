@@ -131,20 +131,26 @@ def payment(request):
         order, created = Order.objects.get_or_create(user=user, complete=False)
         order_items = order.orderitem_set.all()
         order.date_ordered = timezone.now()  # Assign current datetime to order.date
-        order.save()
         order_number = random.randint(100000, 999999)
+        order.order_number = order_number
+        virtual_account = random.randint(100000000000, 999999999999)
+        order.virtual_account = virtual_account
+        order.save()
+        
         if not order_items:
             return redirect('cart')
 
         subtotal = order.get_cart_total
-
+        total_price = order.get_total_payment
         context = {
             "expeditions": expedition,
             "payment_methods": payment_method,
             "order_items": order_items,
             "subtotal": subtotal,
-            "order": order,  # Add the 'order' object to the context
+            "order": order,
             "order_number": order_number,
+            "virtual_account": virtual_account,
+            "total_price": total_price,
         }
         return render(request, 'payment.html', context)
     elif request.method == 'POST':
@@ -172,7 +178,10 @@ def payment(request):
         order.expedition = expedition
         order.payment_method = payment_method
         order.total_cost = total_cost
-        order.complete = True  # Atur pesanan sebagai 'complete'
+        if request.POST['type'] == 'now':
+            order.complete = True
+        elif request.POST['type'] == 'later':
+            order.complete = False
         order.save()
 
         Shipment.objects.create(
@@ -191,13 +200,11 @@ def cart(request):
     user = request.user
     order, created = Order.objects.get_or_create(user=user, complete=False)
     items = order.orderitem_set.all()
-    cartItems = order.get_total_items
     subtotal = order.get_cart_total
 
     context = {
         'items': items,
         'order': order,
-        'cartItems': cartItems,
         'subtotal': subtotal,
     }
 
