@@ -201,13 +201,11 @@ def cart(request):
     order, created = Order.objects.get_or_create(user=user, complete=False)
     items = order.orderitem_set.all()
     subtotal = order.get_cart_total
-
     context = {
         'items': items,
         'order': order,
         'subtotal': subtotal,
     }
-
     return render(request, 'cart.html', context)
 
 def categoryPage(request, category_id):
@@ -287,4 +285,32 @@ def updateItem2(request):
 
 @login_required(login_url='login')
 def purchase(request):
-    return render(request, 'purchase.html')
+    if request.method == 'GET':
+        user = request.user
+        orders = Order.objects.filter(user=user, orderitem__quantity__gt=0).order_by('-date_ordered').distinct()
+        order_items = []
+        for order in orders:
+            order_items.append(order.orderitem_set.all())
+
+        shipments = Shipment.objects.filter(order__in=orders)
+        payment_methods = orders.values('payment_method__id').distinct()
+        expeditions = orders.values('expedition__id').distinct()
+        total_price = orders.aggregate(total_cost=Sum('total_cost'))
+        full_name = orders.values('full_name').distinct()
+        email = orders.values('email').distinct()
+        phone = orders.values('phone').distinct()
+        date_ordered = orders.values('date_ordered').distinct()
+        
+        context = {
+            "orders": orders,
+            "order_items": order_items,
+            "shipments": shipments,
+            "payment_methods": payment_methods,
+            "expeditions": expeditions,
+            "total_price": total_price['total_cost'],
+            "full_name": full_name,
+            "email": email,
+            "phone": phone,
+            "date_ordered": date_ordered,
+        }
+        return render(request, 'purchase.html', context)

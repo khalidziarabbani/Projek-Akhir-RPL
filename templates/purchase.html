@@ -5,6 +5,149 @@
 <link rel="stylesheet" href="{% static '/purchase.css' %}">
 {% include 'navbar.html' %}
 
-<h1>My Purchase History</h1>
+<div class="purchase-page">
+    <h1>Purchase History</h1>
+    {% for order in orders %}
+    <div class="box-content">
+        <button type="button" class="collapsible">
+            Order - #{{order.order_number}}
+            <span>Status</span><span class="status">{{order.complete}}</span>
+        </button>
+        <div class="content">
+            <div class="content-box">
+                <div class="all-product">
+                    {% for item in order.orderitem_set.all %}
+                    <div class="product">
+                        <img src="{{item.product.image.url}}" alt="">
+                        <div class="detail-product">
+                            <h3>{{item.product.name}}</h3>
+                            <span class="price">${{item.product.price}}</span>
+                            <p>Category: <span>{{item.product.category}}</span></p>
+                            <p>Brand: <span>{{item.product.brand}}</span></p>
+                            <p>Quantity: <span>{{item.quantity}}</span></p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="detail-order">
+                    <div class="date-order">
+                        <div class="date">
+                            <span>Date ordered:</span>
+                            <p>{{ order.date_ordered|date:"d F Y" }} {{ order.date_ordered|time:"H:i A" }}</p>
+                        </div>
+                    </div>
+                    <div class="expedition">
+                        <span>Expedition:</span>
+                        <p>{{order.expedition}}</p>
+                    </div>
+                    <div class="total-price">
+                        <span>Total Price:</span>
+                        <p>${{total_price}}</p>
+                    </div>
+                    <div class="user">
+                        <div class="fullname">
+                            <span>Fullname:</span>
+                            <p>{{order.full_name}}</p>
+                        </div>
+                        <div class="email">
+                            <span>Email:</span>
+                            <p>{{order.email}}</p>
+                        </div>
+                        <div class="phone">
+                            <span>Phone:</span>
+                            <p>{{order.phone}}</p>
+                        </div>
+                    </div>
+                    <div class="deliver-address">
+                        <span>Deliver Address:</span>
+                        <p>{{shipments.0.delivery_address}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="purhcase-button">
+                <button id="myBtn">Confirm</button>
+            </div>
+
+            <div id="myModal" class="modal">
+                <div class="modal-content">
+                    <div class="judul"><p>Pay now :</p></div>
+                    <div class="payment-content">
+                        <div class="content-order">
+                            <p>Order - #{{ order.order_number }}</p>
+                        </div>
+                        <p>Payment via :</p>
+                        <img src="{{ order.payment_method.image.url }}">
+                        <p>Virtual Account Number :</p>
+                        <div class="virtual-box">
+                            <p>
+                                {% with order.virtual_account|stringformat:"s" as virtual_account_str %}
+                                    {% for i in virtual_account_str %}
+                                        {{ i }}
+                                        {% if forloop.counter|stringformat:"s"|divisibleby:"4" and not forloop.last %}
+                                            -
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endwith %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="payment-price">
+                        <p>Total Price :</p>
+                        <span>${{ total_price }}</span>
+                    </div>
+                    <div class="payment-deadline">
+                        <p>Date ordered :</p>
+                        <span>{{ order.date_ordered|date:"d F Y" }}</span>
+                        <span>{{ order.date_ordered|time:"H:i A" }}</span>
+                    </div>
+                    <div class="nowlater-button">
+                        <div class="payment-button">
+                            <button class="later" id="laterButton">Cancel</button>
+                        </div>
+                        <div class="payment-button">
+                            <button  id="nowButton" name="type" type="submit" value="now">pay now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    var i;
+
+    for (i = 0; i < coll.length; i++) {
+    coll[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        var content = this.nextElementSibling;
+        if (content.style.maxHeight){
+        content.style.maxHeight = null;
+        } else {
+        content.style.maxHeight = content.scrollHeight + "px";
+        }
+    });
+    }
+</script>
+
+<script>
+    var modal = document.getElementById("myModal");
+    var laterBtn = document.getElementById("laterButton");
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+
+    // When the user clicks on the button, open the modal
+    btn.onclick = function(event) {
+        event.preventDefault(); // Mencegah perilaku bawaan tombol
+        modal.style.display = "block";
+    }
+
+    laterBtn.onclick = function() {
+        modal.style.display = "none";
+    }
+</script>
 
 {% endblock content %}

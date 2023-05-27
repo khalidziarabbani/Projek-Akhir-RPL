@@ -1,0 +1,303 @@
+.purchase-page {
+    padding: 29px 100px;
+}
+
+.box-content {
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
+    margin-bottom: 20px;
+    flex-direction: column;
+}
+
+/* Style the button that is used to open and close the collapsible content */
+.collapsible {
+    background-color: #eee;
+    color: #444;
+    cursor: pointer;
+    padding: 10px;
+    width: 70%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active,
+.collapsible:hover {
+    background-color: #ccc;
+}
+
+/* Style the collapsible content. Note: hidden by default */
+.content {
+    width: 70%;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.collapsible:after {
+    content: '\2795';
+    /* Unicode character for "plus" sign (+) */
+    font-size: 15px;
+    font-weight: 500;
+    color: black;
+    float: right;
+    margin-left: 5px;
+}
+
+.active:after {
+    content: "\2796";
+    /* Unicode character for "minus" sign (-) */
+}
+
+.content-box {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px;
+}
+
+.product {
+    display: flex;
+    flex-direction: row;
+}
+
+.all-product {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.product img {
+    width: 150px;
+    height: 164.58px;
+    border-radius: 10px;
+    margin-right: 10px;
+}
+
+.detail-product {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.detail-product h3 {
+    font-weight: 600;
+    font-size: 20px;
+}
+
+.detail-product p {
+    font-weight: 500;
+    font-size: 15px;
+    color: #868686;
+}
+
+.detail-product p span {
+    color: black;
+}
+
+.detail-product .price {
+    font-weight: 600;
+    font-size: 20px;
+    color: #E53433;
+}
+
+.detail-order {
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+    padding-bottom: 10px;
+    gap: 10px;
+}
+
+.date-order {
+    border-bottom: 2px solid black;
+    display: flex;
+    flex-direction: column;
+}
+
+.date,
+.expedition,
+.total-price,
+.fullname,
+.email,
+.phone {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.date p,
+.expedition p,
+.total-price p,
+.fullname p,
+.email p,
+.phone p,
+.deliver-address p {
+    font-weight: 500;
+    font-size: 15px;
+    color: #868686;
+}
+
+.user {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.deliver-address {
+    display: flex;
+    flex-direction: column;
+    max-width: 301.862px;
+    word-wrap: break-word;
+}
+
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Modal Content/Box */
+.modal-content {
+    background: white;
+    margin: 7% auto;
+    width: 30%;
+}
+
+.modal-content .judul {
+    background: #ebebeb;
+    padding: 10px 20px;
+}
+
+.modal-content .judul p {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 22px;
+    color: #000000;
+    align-items: left;
+}
+
+.payment-content {
+    padding: 20px;
+}
+
+.payment-content p {
+    font-size: 15px;
+    line-height: 15px;
+}
+
+.payment-content img {
+    object-fit: cover;
+    width: 110px;
+    height: 65px;
+}
+
+.content-order {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px dashed #C1C1C1;
+    margin-bottom: 30px;
+    padding: 10px;
+}
+
+.content-order p {
+    font-weight: 900;
+    font-size: 18px;
+    line-height: 22px;
+}
+
+
+.virtual-box {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #EBEBEB;
+    border: 2px dashed #C1C1C1;
+    border-radius: 3px;
+    width: 100%;
+    height: 30px;
+}
+
+.virtual-box p {
+    font-weight: 900;
+    font-size: 18px;
+    line-height: 22px;
+    color: #00008B;
+}
+
+.payment-deadline,
+.payment-price {
+    padding: 0 20px;
+    margin-bottom: 10px;
+}
+
+.payment-deadline span{
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 22px;
+}
+
+.payment-price span{
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 22px;
+}
+
+.nowlater-button {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px 20px;
+}
+
+.payment-button .later{
+    background: #dbdbdb;
+    width: 150px;
+    height: 40px;
+    border-radius: 3px;
+    color: white;
+    border: none;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 16px;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.payment-button .later:hover{
+    background: #959595;
+}
+
+.payment-button button {
+    width: 150px;
+    height: 40px;
+    background: #FF0000;
+    border-radius: 3px;
+    color: white;
+    border: none;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 16px;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.payment-button button:hover {
+    background: #da0505;
+}

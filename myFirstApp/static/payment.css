@@ -486,7 +486,7 @@
 }
 
 .payment-button .later{
-    background: #868686;
+    background: #dbdbdb;
     width: 150px;
     height: 40px;
     border-radius: 3px;
@@ -500,5 +500,5 @@
 }
 
 .payment-button .later:hover{
-    background: #6e6e6e;
+    background: #959595;
 }
