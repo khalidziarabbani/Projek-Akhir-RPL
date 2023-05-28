@@ -6,8 +6,8 @@
     </div>
     <div class="features">
         <li><a href="{% url 'index' %}">Home</a></li>
-        <li><a href="#categories">Categories</a></li>
-        <li><a href="#product">Products</a></li>
+        <li><a href="{% url 'categories' %}">Categories</a></li>
+        <li><a href="{% url 'all_products' %}">Products</a></li>
         <li><a href="{% url 'cart' %}">Cart
             {% comment %} <span>{{request.user.profile.cartCount}}</span> {% endcomment %}
         </a></li>

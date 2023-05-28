@@ -315,3 +315,21 @@ def purchase(request):
             "date_ordered": date_ordered,
         }
         return render(request, 'purchase.html', context)
+
+def categories(request):
+    categories = Categorie.objects.all()
+    products = Product.objects.all()
+    context = {
+        "categories": categories,
+        "products": products,
+    }
+    return render(request, 'categories.html', context)
+
+def all_products(request):
+    categories = Categorie.objects.all()
+    products = Product.objects.all()
+    context = {
+        "categories": categories,
+        "products": products,
+    }
+    return render(request, 'all_products.html', context)

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Categories{% endblock title %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static '/categories.css' %}">
+{% include 'navbar.html' %}
+<div class="categories" id="categories">
+    <div class="cat-judul">Categories</div>
+    <div class="cat-list">
+        {% for c in categories %}
+        <a href="{% url 'category' c.pk %}">
+            <div class="cat-box">
+                {% if c.image %}
+                <img src="{{c.image.url}}" alt="">
+                {% else %}
+                <img src="" alt="">
+                {% endif %}
+                <div class="cat-text">{{c.name}}</div>
+            </div>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock content %}

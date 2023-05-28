@@ -41,7 +41,7 @@
                     </div>
                     <div class="total-price">
                         <span>Total Price:</span>
-                        <p>${{total_price}}</p>
+                        <p>${{total_price|floatformat:2}}</p>
                     </div>
                     <div class="user">
                         <div class="fullname">
@@ -92,7 +92,7 @@
                     </div>
                     <div class="payment-price">
                         <p>Total Price :</p>
-                        <span>${{ total_price }}</span>
+                        <span>${{ total_price|floatformat:2 }}</span>
                     </div>
                     <div class="payment-deadline">
                         <p>Date ordered :</p>
