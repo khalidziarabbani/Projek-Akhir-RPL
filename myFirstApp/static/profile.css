@@ -27,7 +27,7 @@ html {
 }
 
 .profile-box {
-    width: 1200px;
+    width: 1000px;
     border: 3px solid #D9D9D9;
     box-shadow: 15px 15px 10px rgba(0, 0, 0, 0.25);
     border-radius: 10px;
@@ -44,6 +44,9 @@ html {
     width: 48%;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-left: 30px;
 }
 
 .judul-profile {
@@ -51,13 +54,13 @@ html {
     font-size: 28px;
     line-height: 39px;
     color: #000000;
-    margin-bottom: 50px;
 }
 
 .isi-profile {
     display: flex;
     flex-direction: row;
     justify-content: left;
+    margin-bottom: 45px;
 }
 
 .jenis-profile,
@@ -103,7 +106,7 @@ html {
 .garis-profile .garis {
     width: 0px;
     margin-top: 40px;
-    height: 520px;
+    height: 480px;
     border: 3px solid red;
     filter: blur(2px);
 }
@@ -123,8 +126,6 @@ html {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 .filename {
@@ -137,6 +138,7 @@ html {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 300px;
 }
 
 .foto {
@@ -163,6 +165,7 @@ html {
     justify-content: center;
     align-items: center;
     margin: 35px;
+    margin-top: 63px;
 }
 
 
@@ -170,6 +173,7 @@ html {
     margin-right: 5px;
     margin-left: 5px;
 }
+
 
 .foto-profile-input input[type="button"],
 .foto-profile-input input[type="submit"],
