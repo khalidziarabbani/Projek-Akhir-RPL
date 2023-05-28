@@ -8,8 +8,8 @@
 <div class="product">
     <div class="product-container">
         <div class="product-path">
-            <a href={% url 'index' %}>Home </a>
-            > Produk > 
+            <a href={% url 'index' %}>Home ></a>
+            <a href="{% url 'all_products' %}">Produk ></a> 
             <a href="{% url 'category' products.category.id %}">{{products.category}}</a>
             <span class="product-path-2"> > {{products.name}}</span>
         </div>
@@ -56,7 +56,11 @@
                         <span class="total-value">$0.00</span>
                     </div>
                     <div class="add-to-cart">
-                        <button type="submit">Add to Cart</button>
+                        {% if user.is_authenticated %}
+                            <button type="submit">Add to Cart</button>
+                        {% else %}
+                            <a href="{% url 'login' %}">Login to Add to Cart</a>
+                        {% endif %}
                     </div>
                 </form>
             </div>

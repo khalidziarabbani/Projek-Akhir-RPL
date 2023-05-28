@@ -180,6 +180,15 @@
     margin-top: 50px;
 }
 
+.add-to-cart a{
+    text-decoration: none;
+    color: red;
+}
+
+.add-to-cart a:hover {
+    cursor: pointer;
+}
+
 .add-to-cart button {
     color: #fff;
     border: none;
