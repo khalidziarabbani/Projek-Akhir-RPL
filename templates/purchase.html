@@ -11,7 +11,6 @@
     <div class="box-content">
         <button type="button" class="collapsible">
             Order - #{{order.order_number}}
-            <span>Status</span><span class="status">{{order.complete}}</span>
         </button>
         <div class="content">
             <div class="content-box">
@@ -64,13 +63,13 @@
                     </div>
                 </div>
             </div>
-            <div class="purhcase-button">
-                <button id="myBtn">Confirm</button>
+            <div class="payment-button">
+                <button class="later" id="myBtn-{{order.order_number}}" data-modal-id="myModal-{{order.order_number}}">Detail</button>.
             </div>
 
-            <div id="myModal" class="modal">
+            <div id="myModal-{{order.order_number}}" class="modal">
                 <div class="modal-content">
-                    <div class="judul"><p>Pay now :</p></div>
+                    <div class="judul"><p>Purchase detail :</p></div>
                     <div class="payment-content">
                         <div class="content-order">
                             <p>Order - #{{ order.order_number }}</p>
@@ -100,14 +99,6 @@
                         <span>{{ order.date_ordered|date:"d F Y" }}</span>
                         <span>{{ order.date_ordered|time:"H:i A" }}</span>
                     </div>
-                    <div class="nowlater-button">
-                        <div class="payment-button">
-                            <button class="later" id="laterButton">Cancel</button>
-                        </div>
-                        <div class="payment-button">
-                            <button  id="nowButton" name="type" type="submit" value="now">pay now</button>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -117,37 +108,49 @@
 
 <script>
     var coll = document.getElementsByClassName("collapsible");
-    var i;
+    var laterBtns = document.getElementsByClassName("later");
+    var modals = document.getElementsByClassName("modal");
 
-    for (i = 0; i < coll.length; i++) {
-    coll[i].addEventListener("click", function() {
-        this.classList.toggle("active");
-        var content = this.nextElementSibling;
-        if (content.style.maxHeight){
-        content.style.maxHeight = null;
-        } else {
-        content.style.maxHeight = content.scrollHeight + "px";
-        }
-    });
+    for (var i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function() {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.maxHeight) {
+                content.style.maxHeight = null;
+            } else {
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+
+        laterBtns[i].addEventListener("click", function() {
+            var modalId = this.getAttribute("data-modal-id");
+            var modal = document.getElementById(modalId);
+            modal.style.display = "none";
+        });
+    }
+
+    var btns = document.querySelectorAll("[data-modal-id^='myModal-']");
+
+    for (var i = 0; i < btns.length; i++) {
+        btns[i].addEventListener("click", function(event) {
+            event.preventDefault();
+            var modalId = this.getAttribute("data-modal-id");
+            var modal = document.getElementById(modalId);
+            modal.style.display = "block";
+        });
     }
 </script>
 
 <script>
-    var modal = document.getElementById("myModal");
-    var laterBtn = document.getElementById("laterButton");
-    // Get the button that opens the modal
-    var btn = document.getElementById("myBtn");
-
-
-    // When the user clicks on the button, open the modal
-    btn.onclick = function(event) {
-        event.preventDefault(); // Mencegah perilaku bawaan tombol
-        modal.style.display = "block";
-    }
-
-    laterBtn.onclick = function() {
-        modal.style.display = "none";
-    }
+    // Menyembunyikan modal saat mengklik di luar area modal
+    window.addEventListener("click", function(event) {
+        if (event.target.classList.contains("modal")) {
+            event.target.style.display = "none";
+        }
+    });
 </script>
+
+
+
 
 {% endblock content %}

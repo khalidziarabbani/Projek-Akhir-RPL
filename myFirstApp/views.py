@@ -9,6 +9,7 @@ from django.dispatch import receiver
 from django.db.models.signals import post_save
 from django.contrib.auth.models import User
 from django.contrib import messages
+from django.core.cache import cache
 import random
 import json
 from django.http import JsonResponse
@@ -180,9 +181,9 @@ def payment(request):
         order.total_cost = total_cost
         if request.POST['type'] == 'now':
             order.complete = True
-        elif request.POST['type'] == 'later':
-            order.complete = False
         order.save()
+        
+        
 
         Shipment.objects.create(
             user=user,
@@ -192,6 +193,7 @@ def payment(request):
             province=province,
             zipcode=zipcode,
         )
+        
         return redirect('purchase')
 
 
@@ -218,7 +220,6 @@ def categoryPage(request, category_id):
     return render(request, 'categoryPage.html', context)
 
 def product(request, product_id):
-    
     if request.method == 'POST':
         product = Product.objects.get(id=product_id)
         user = request.user
@@ -287,7 +288,7 @@ def updateItem2(request):
 def purchase(request):
     if request.method == 'GET':
         user = request.user
-        orders = Order.objects.filter(user=user, orderitem__quantity__gt=0).order_by('-date_ordered').distinct()
+        orders = Order.objects.filter(user=user, orderitem__quantity__gt=0, complete=True).order_by('-date_ordered').distinct()
         order_items = []
         for order in orders:
             order_items.append(order.orderitem_set.all())

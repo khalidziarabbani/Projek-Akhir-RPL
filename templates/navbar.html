@@ -8,7 +8,9 @@
         <li><a href="{% url 'index' %}">Home</a></li>
         <li><a href="#categories">Categories</a></li>
         <li><a href="#product">Products</a></li>
-        <li><a href="{% url 'cart' %}">Cart{{request.user.profile.cartCount}}</a></li>
+        <li><a href="{% url 'cart' %}">Cart
+            {% comment %} <span>{{request.user.profile.cartCount}}</span> {% endcomment %}
+        </a></li>
         <li><a href="#about">About</a></li>
     </div>
 
