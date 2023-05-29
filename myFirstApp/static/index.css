@@ -419,3 +419,17 @@ html {
 .paragraf-atas {
     margin-bottom: 18px;
 }
+
+.footer {
+    height: 50px;
+    background: #FFFFFF;
+    padding: 30px;
+    padding-top: 10px;
+    border-top: 2px solid #d9d9d9;
+}
+
+.footer p{
+    color:black;
+    font-size: 15px;
+    text-align: left;
+}
