@@ -157,6 +157,10 @@
                 <div class="content-order">
                     <p>Order - #{{ order_number }}</p>
                 </div>
+                <div class="total-harga">
+                    <p>Total payment:</p>
+                    <div id="display-total"></div>
+                </div>
                 <p>Virtual Account Number :</p>
                 <div class="virtual-box">
                     <p>
@@ -171,9 +175,30 @@
                     </p>
                 </div>
             </div>
+            <div class="cara-bayar">
+                {% for method in payment_methods %}
+                <button type="button" class="coll-1">{{method.name}}</button>
+                <div class="cont-1">
+                    <ul>
+                        <li>Login ke {{method.name}} Mobile.</li>
+                        <li>Pilih menu <span>Transfer > Virtual Account Billing<span>.</li>
+                        <li>Masukkan nomor {{method.name}}: <span>{% with virtual_account|stringformat:"s" as virtual_account_str %}
+                            {% for i in virtual_account_str %}
+                                {{ i }}
+                                {% if forloop.counter|stringformat:"s"|divisibleby:"4" and not forloop.last %}
+                                    -
+                                {% endif %}
+                            {% endfor %}
+                        {% endwith %}</span>.</li>
+                        <li>Periksa apakah informasi yang tertera sudah sesuai, jika benar pilih <span>Ya</span>.</li>
+                    </ul>
+                </div>
+                {% endfor %}
+            </div>
+
             <div class="payment-deadline">
-                <p>{{ order.date_ordered|date:"d F Y" }}</p>
-                <p>{{ order.date_ordered|time:"H:i A" }}</p>
+                <p>Payment deadline :</p>
+                <p id="countdown"></p>
             </div>
             <div class="nowlater-button">
                 <div class="payment-button">
@@ -183,6 +208,73 @@
         </div>
     </div>
 </form>
+
+
+{% comment %} countdown deadline {% endcomment %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var countdownElement = document.getElementById('countdown');
+        var confirmButton = document.getElementById('myBtn');
+        var reloadInterval;
+
+        // Function to start the countdown
+        function startCountdown() {
+            confirmButton.disabled = true; // Disable the Confirm button
+            var targetTime = new Date();
+            targetTime.setMinutes(targetTime.getMinutes() + 5);
+
+            var countdownInterval = setInterval(updateCountdown, 1000);
+
+            function updateCountdown() {
+                var currentTime = new Date();
+                var remainingTime = targetTime - currentTime;
+
+                var minutes = Math.floor(remainingTime / (1000 * 60));
+                var seconds = Math.floor((remainingTime % (1000 * 60)) / 1000);
+
+                countdownElement.textContent = minutes.toString().padStart(2, '0') + ':' +
+                    seconds.toString().padStart(2, '0');
+
+                if (remainingTime <= 0) {
+                    clearInterval(countdownInterval);
+                    countdownElement.textContent = "Pembayaran gagal mohon lakukan pemesanan ulang";
+                    reloadInterval = setTimeout(function () {
+                        location.reload(); // Reload the page after 5 minutes
+                    }, 5000);
+                }
+            }
+        }
+
+        confirmButton.addEventListener('click', function () {
+            startCountdown();
+        });
+
+        var modal = document.getElementById("myModal");
+
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                clearTimeout(reloadInterval); // Clear the reload interval if the modal is closed
+                modal.style.display = "none";
+            }
+        };
+    });
+</script>
+
+
+
+{% comment %} collapsible tutorial pay {% endcomment %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var collapsibleBtns = document.querySelectorAll('.coll-1');
+        
+        collapsibleBtns.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                var content = this.nextElementSibling;
+                content.style.display = content.style.display === 'none' ? 'block' : 'none';
+            });
+        });
+    });
+</script>
 
 {% comment %} update total price {% endcomment %}
 <script>
@@ -199,6 +291,8 @@
         const total = subtotal + shipping + tax;
 
         totalValue.value = '$' + total.toFixed(2);
+        const displayTotal = document.getElementById('display-total');
+        displayTotal.innerText = totalValue.value;
     };
 
     // Event listener untuk update total saat opsi pengiriman berubah

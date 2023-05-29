@@ -412,8 +412,8 @@
 /* Modal Content/Box */
 .modal-content {
     background: white;
-    margin: 7% auto;
-    width: 25%;
+    margin: 5% auto;
+    width: 30%;
 }
 
 .modal-content .judul {
@@ -443,8 +443,28 @@
     justify-content: center;
     align-items: center;
     border: 2px dashed #C1C1C1;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
     padding: 10px;
+}
+
+.total-harga {
+    padding: 10px 0;
+}
+
+.total-harga p {
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    color: #000000;
+    align-items: left;
+}
+
+#display-total {
+    padding-top: 3px;
+    font-weight: 900;
+    font-size: 20px;
+    line-height: 22px;
+    color: #da0505;
 }
 
 .content-order p {
@@ -485,7 +505,7 @@
     padding: 20px 20px;
 }
 
-.payment-button .later{
+.payment-button .later {
     background: #dbdbdb;
     width: 150px;
     height: 40px;
@@ -499,6 +519,47 @@
     cursor: pointer;
 }
 
-.payment-button .later:hover{
+.payment-button .later:hover {
     background: #959595;
+}
+
+
+
+.cara-bayar {
+    padding: 20px;
+    padding-top: 0;
+}
+
+.coll-1{
+    background-color: #d9d9d9;
+    color: #333;
+    cursor: pointer;
+    padding: 10px;
+    border: none;
+    text-align: left;
+    width: 100%;
+    margin-bottom: 3px;
+}
+
+.coll-1:hover {
+    background-color: #ddd;
+}
+
+.cont-1 {
+    display: none;
+    padding: 2px 20px;
+    padding-bottom: 5px;
+    font-size: 12px;
+}
+
+.cont-1 span {
+    color: #00008B;
+}
+
+.payment-deadline p {
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    color: #000000;
+    align-items: left;
 }
