@@ -27,6 +27,7 @@
     border-radius: 5px;
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
 }
 
 .payment-box-form {
@@ -34,7 +35,7 @@
 }
 
 .payment-order {
-    width: 40%;
+    width: 30%;
 }
 
 .input-field-1 {

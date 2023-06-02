@@ -103,6 +103,16 @@ def logoutview(request):
     return redirect('index')
 
 @login_required(login_url='login')
+def delete_account(request):
+    if request.method == 'POST':
+        user = request.user
+        user.delete()
+        logout(request)
+        return redirect('index')
+    else:
+        return render(request, 'profile.html')
+
+@login_required(login_url='login')
 def profile(request):
     if request.method == 'POST':
         user = request.user
@@ -123,8 +133,16 @@ def profile(request):
         user.save()
         profile.save()
         return redirect('profile')
-    else :
-        return render(request, 'profile.html')
+    elif request.method == 'GET':
+        user = request.user
+        try:
+            wishlist = Wishlist.objects.get(user=user)
+        except Wishlist.DoesNotExist:
+            wishlist = None
+        context = {
+            "wishlist": wishlist.products.all() if wishlist else [],
+        }
+        return render(request, 'profile.html', context)
 
     
 def edit_image(request):

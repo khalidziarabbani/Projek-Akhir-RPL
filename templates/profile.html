@@ -82,16 +82,6 @@
             </div>
 
             <div class="season_tab">
-                <input type="radio" id="tab-2" name="tab-group-1">
-                <label for="tab-2">Orders</label>
-                
-                <div class="season_content">
-                    <p class="judul">Orders</p>
-                    <p class="desc">Orders</p>
-                </div> 
-            </div>
-
-            <div class="season_tab">
                 <input type="radio" id="tab-3" name="tab-group-1">
                 <label for="tab-3">Wishlist</label>
             
@@ -99,12 +89,51 @@
                     <p class="judul">Wishlist</p>
                     <p class="desc">Fulfill Your Wishes with Interesting Orders</p>
                     <div class="content-wishlist">
-                        <div class="wishlist-box">
-                            a
+                        {% for w in wishlist %}
+                            <div class="wishlist-box">
+                                <img src={{ w.image.url }} alt="{{w.name}}">
+                                <div class="desc-box">
+                                    <p class="wishlist-name">{{ w.name }}</p>
+                                    <p class="wishlist-desc">{{ w.description }}</p>
+                                    <p class="wishlist-price">${{ w.price|floatformat:2 }}</p>
+                                </div>
+                                <div class="buttonss">
+                                    <div class="item-button">
+                                        <form method="POST" action="{% url 'add_to_cart' w.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit" class="item-button">Add to cart</button>
+                                            <input type="hidden" name="quantity" value="1">
+                                        </form>
+                                    </div>
+                                    <div class="wishlist-button">
+                                        <form method="POST" action="{% url 'add_to_wishlist' w.id %}" class="wishlist">
+                                            {% csrf_token %}
+                                            <button type="submit" class="wishlist-button"></button>
+                                        </form>
+                                    </div>
+                                </div>
+
+                                
+                            </div>
+                        {% empty %}
+                        <style>
+                            .content-wishlist {
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                height: 100%;
+                                padding-top: 70px;
+                            }
+                        </style>
+                        <div class="no-wishlist">
+                            <img src="{% static 'img/heart-wishlist.svg' %}">
+                            <p>No Product in your Wishlist.</p>
                         </div>
+                        {% endfor %}
                     </div>
                 </div> 
             </div>
+
 
             <div class="season_tab">
                 <input type="radio" id="tab-4" name="tab-group-1">
@@ -122,6 +151,20 @@
                         <p class="label-form">Confirm New Password:</p>
                         <input type="password" name="new_password2" id="new_password2" class="form-input">
                         <button type="submit" class="form-button">Save Changes</button>
+                    </form>
+                </div> 
+            </div>
+
+            <div class="season_tab">
+                <input type="radio" id="tab-2" name="tab-group-1">
+                <label for="tab-2">Delete Account</label>
+                
+                <div class="season_content">
+                    <p class="judul">Delete your account</p>
+                    <p class="desc">Are you sure you want to delete your account?</p>
+                    <form method="post" action="{% url 'delete_account' %}">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete your account?')">Delete Account</button>
                     </form>
                 </div> 
             </div>

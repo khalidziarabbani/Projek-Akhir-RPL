@@ -10,65 +10,6 @@
     <div class="payment">  
         <h1>Checkout</h1>
         <div class="payment-box">
-            <div class="payment-box-form">
-                <div class="input-field-1">
-                    <img src="{% static 'img/car-cart.png' %}" alt="">
-                    <input type="text" name="delivery_address" placeholder="Delivery Address" required>
-                </div>
-                <div class="input-field-2">
-                    <div class="input-box">
-                        <p>Full Name</p>
-                        <input type="text" name="full_name" value="{{ user.profile.fullname }}" required>
-                    </div>
-                    <div class="input-box">
-                        <p>Email</p>
-                        <input type="text" name="email" value="{{ user.email }}" required>
-                    </div>
-                </div>
-                <div class="input-field-2">
-                    <div class="input-box">
-                        <p>Address</p>
-                        <input type="text"  name="address" value="{{ user.profile.address }}" required>
-                    </div>
-                    <div class="input-box">
-                        <p>Phone</p>
-                        <input type="text" name="phone" value="{{ user.profile.phone }}" required>
-                    </div>
-                </div>
-                {% comment %} <div class="input-field-3">
-                    <div class="input-box">
-                        <p>City</p>
-                        <input name="city" type="text" required>
-                    </div>
-                    <div class="input-box">
-                        <p>Province</p>
-                        <input name="province" type="text" required>
-                    </div>
-                    <div class="input-box">
-                        <p>Country</p>
-                        <input type="text" required>
-                    </div>
-                    <div class="input-box">
-                        <p>ZIP Code</p>
-                        <input name="zipcode" type="text" required>
-                    </div>
-                </div> {% endcomment %}
-                
-                <div class="shipping">
-                    <p>Select a shipping method</p>
-                    <div class="shipping-box">
-                        {% for e in expeditions %}
-                            <label class="shipping-option">
-                                <input type="radio" id="shippingMethodSelect{{ forloop.counter }}" value="{{ e.price }}" data-expedition-id="{{ e.id }}" name="shipping_method" required>
-                                <div class="radio-btn">
-                                    <img src="{{ e.image.url }}" alt="">
-                                </div>
-                            </label>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-
             
             <div class="payment-order">
                 <div class="payment-order-box">
@@ -144,6 +85,66 @@
                             
 
                         </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="payment-box-form">
+                <div class="input-field-1">
+                    <img src="{% static 'img/car-cart.png' %}" alt="">
+                    <input type="text" name="delivery_address" placeholder="Delivery Address" required>
+                </div>
+                <div class="input-field-2">
+                    <div class="input-box">
+                        <p>Full Name</p>
+                        <input type="text" name="full_name" value="{{ user.profile.fullname }}" required>
+                    </div>
+                    <div class="input-box">
+                        <p>Email</p>
+                        <input type="text" name="email" value="{{ user.email }}" required>
+                    </div>
+                </div>
+                <div class="input-field-2">
+                    <div class="input-box">
+                        <p>Address</p>
+                        <input type="text"  name="address" value="{{ user.profile.address }}" required>
+                    </div>
+                    <div class="input-box">
+                        <p>Phone</p>
+                        <input type="text" name="phone" value="{{ user.profile.phone }}" required>
+                    </div>
+                </div>
+                {% comment %} <div class="input-field-3">
+                    <div class="input-box">
+                        <p>City</p>
+                        <input name="city" type="text" required>
+                    </div>
+                    <div class="input-box">
+                        <p>Province</p>
+                        <input name="province" type="text" required>
+                    </div>
+                    <div class="input-box">
+                        <p>Country</p>
+                        <input type="text" required>
+                    </div>
+                    <div class="input-box">
+                        <p>ZIP Code</p>
+                        <input name="zipcode" type="text" required>
+                    </div>
+                </div> {% endcomment %}
+                
+                <div class="shipping">
+                    <p>Select a shipping method</p>
+                    <div class="shipping-box">
+                        {% for e in expeditions %}
+                            <label class="shipping-option">
+                                <input type="radio" id="shippingMethodSelect{{ forloop.counter }}" value="{{ e.price }}" data-expedition-id="{{ e.id }}" name="shipping_method" required>
+                                <div class="radio-btn">
+                                    <img src="{{ e.image.url }}" alt="">
+                                </div>
+                            </label>
+                        {% endfor %}
                     </div>
                 </div>
             </div>

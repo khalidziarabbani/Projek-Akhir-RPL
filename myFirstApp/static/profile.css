@@ -324,8 +324,121 @@ html {
 .content-wishlist {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+    gap: 35px;
     margin-bottom: 50px;
+    padding-bottom: 40px;
+}
+
+.no-wishlist {
+    color: #b3b3b3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.wishlist-box {
+    padding: 10px;
     border: 1px solid #ccc;
-    padding: 40px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wishlist-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+
+.item-button {
+    width: 96px;
+    height: 26px;
+    background: #FF0000;
+    border-radius: 30px;
+    justify-content: center;
+    align-items: center;
+    display: inline-flex;
+}
+
+.item-button:hover {
+    background: #e40404;
+}
+
+.item-button button {
+    font-weight: 400;
+    font-size: 13px;
+    text-align: center;
+    color: #FFFFFF;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
+
+.buttonss {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+    align-items: center;
+}
+
+.wishlist-button {
+    font-size: 20px;
+    height: 20px;
+    width: 20px;
+    border: none;
+    background-image: url(img/heartfull.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.wishlist-button:hover {
+    background-image: url(img/heartt.png);
+}
+
+.desc-box {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.desc-box .wishlist-name {
+    font-weight: 500;
+    font-size: 16px;
+    color: #000000;
+}
+
+.desc-box .wishlist-desc {
+    font-weight: 400;
+    font-size: 14px;
+    color: #b3b3b3;
+}
+
+.desc-box .wishlist-price {
+    font-weight: 500;
+    font-size: 18px;
+    color: #000000;
+}
+
+.delete-button {
+    background-color: #ff0000;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+.delete-button:hover {
+    background-color: #cc0000;
 }

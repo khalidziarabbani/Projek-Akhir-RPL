@@ -131,6 +131,11 @@ class Wishlist(models.Model):
 
     def remove_from_wishlist(self, product):
         self.products.remove(product)
+        
+    @classmethod
+    def remove_from_wishlist2(cls, user, product):
+        wishlist, created = cls.objects.get_or_create(user=user)
+        wishlist.products.remove(product)
 
 class Status(models.Model):
     name = models.CharField(max_length=200, null=True, blank=True)
