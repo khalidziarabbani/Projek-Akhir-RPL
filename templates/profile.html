@@ -5,72 +5,150 @@
 <link rel="stylesheet" href="{% static 'profile.css' %}">
 
 {% include 'navbar.html' %}
+    <!-- content -->
     <div class="profile">
-            <div class="profile-box">
-                <div class="foto-profile">
-                    <p class="judul-profile">My Profile</p>
-                    <form action="{% url 'edit_image' %}" method="post" enctype="multipart/form-data" id="editForm">
-                        {% csrf_token %}
-                        <div class="foto-container">
-                            <div class="foto">
-                                <img src="{% if user.profile.image.url and user.profile.image %}{{ user.profile.image.url }}{% else %}{% static "img/user-default.jpg" %}{% endif %}" alt="">
-                            </div>
-                        </div>
-                        <div class="filename">
-                            <p id="fileName" style="display: none;"></p>
-                        </div> 
-                        <div class="foto-profile-input">
-                            <input type="file" name="profile_image" id="profileImage" style="display: none;" onchange="showFileName()" accept="image/*">
-                            <input type="button" value="Edit" id="editButton2" onclick="enableEdit()">
-                            <input type="submit" value="Save" id="saveButton2" style="display: none;">
-                            <input type="button" value="Cancel" id="cancelButton" style="display: none;" onclick="cancelEdit()">
-                        </div>
-                    </form>     
-                </div>
-                <div class="garis-profile">
-                    <div class="garis"></div>
-                </div>
-                <div class="keterangan-profile">
-                    <form action="" method="post" class="user-profile-form">
-                        {% csrf_token %}
-                            <div class="isi-profile">
-                                <div class="jenis-profile">
-                                    <p>Username</p>
-                                    <p>Email</p>
-                                    <p>Phone Number</p>
-                                    <p>Address</p>
-                                    <p>Full Name</p>
-                                    <p>Nick Name</p>
-                                </div>
-                                <div class="titik-dua">
-                                    <p>:</p>
-                                    <p>:</p>
-                                    <p>:</p>
-                                    <p>:</p>
-                                    <p>:</p>
-                                    <p>:</p>
-                                </div>
-                                <div class="user-profile">
-                                    <div class="user-profile-input">
-                                        <input type="text" name="username" id="username" value="{{ user.username }}" readonly>
-                                        <input type="email" name="email" id="email" value="{{ user.email }}" readonly>
-                                        <input type="text" name="phone" id="phone" value="{{ user.profile.phone }}" readonly>
-                                        <input type="text" name="address" id="address" value="{{ user.profile.address }}" readonly>
-                                        <input type="text" name="fullname" id="fullname" value="{{ user.profile.fullname }}" readonly>
-                                        <input type="text" name="nickname" id="nickname" value="{{ user.profile.nickname }}" readonly>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <div class="seasonTabs">
+            <div class="season_tab">
+                <input type="radio" id="tab-1" name="tab-group-1" checked>
+                <label for="tab-1">Profile</label>
+                
+                <div class="season_content">
+                    <p class="judul">Profile</p>
+                    <p class="desc">Manage your profile information to control, protect and secure your account</p>
+                    <div class="content-profile">
+                        <div class="keterangan-profile">
+                            <form action="" method="post" class="user-profile-form">
+                                {% csrf_token %}
+                                    <div class="isi-profile">
+                                        <div class="jenis-profile">
+                                            <p>Username</p>
+                                            <p>Email</p>
+                                            <p>Phone Number</p>
+                                            <p>Address</p>
+                                            <p>Fullname</p>
+                                            <p>Nickname</p>
+                                        </div>
+                                        <div class="titik-dua">
+                                            <p>:</p>
+                                            <p>:</p>
+                                            <p>:</p>
+                                            <p>:</p>
+                                            <p>:</p>
+                                            <p>:</p>
+                                        </div>
+                                        <div class="user-profile">
+                                            <div class="user-profile-input">
+                                                <input type="text" name="username" id="username" value="{{ user.username }}" readonly>
+                                                <input type="email" name="email" id="email" value="{{ user.email }}" readonly>
+                                                <input type="text" name="phone" id="phone" value="{{ user.profile.phone }}" readonly>
+                                                <input type="text" name="address" id="address" value="{{ user.profile.address }}" readonly>
+                                                <input type="text" name="fullname" id="fullname" value="{{ user.profile.fullname }}" readonly>
+                                                <input type="text" name="nickname" id="nickname" value="{{ user.profile.nickname }}" readonly>
+                                            </div>
+                                        </div>
                                     </div>
+                                    <div class="user-profile-button">
+                                        <button type="button" id="editButton" onclick="toggleEdit()">Edit</button>
+                                        <input type="submit" value="Save" id="saveButton" style="display: none;">
+                                    </div>
+                                </form>
+                            </div>
+                            
+                            <div class="foto-user">
+                            <form action="{% url 'edit_image' %}" method="post" enctype="multipart/form-data" id="editForm">
+                            {% csrf_token %}
+                                <img src="{% if user.profile.image.url and user.profile.image %}{{ user.profile.image.url }}{% else %}{% static "img/user-default.jpg" %}{% endif %}" alt="">
+                                <div class="filename-box">
+                                    <p id="fileName" style="display: none;"></p>
                                 </div>
+                                <div class="foto-profile-input">
+                                    <input type="file" name="profile_image" id="profileImage" style="display: none;" onchange="showFileName()" accept="image/*">
+                                    <input type="button" value="Edit" id="editButton2" onclick="enableEdit()">
+                                    <input type="submit" value="Save" id="saveButton2" style="display: none;">
+                                    <input type="button" value="Cancel" id="cancelButton" style="display: none;" onclick="cancelEdit()">
+                                </div>
+                            </form>
                             </div>
-                            <div class="user-profile-button">
-                                <button type="button" id="editButton" onclick="toggleEdit()">Edit</button>
-                                <input type="submit" value="Save" id="saveButton" style="display: none;">
-                            </div>
-                        </form>
-                        
-                </div>
+                            
+                    </div>
+                </div> 
             </div>
+
+            <div class="season_tab">
+                <input type="radio" id="tab-2" name="tab-group-1">
+                <label for="tab-2">Orders</label>
+                
+                <div class="season_content">
+                    <p class="judul">Orders</p>
+                    <p class="desc">Orders</p>
+                </div> 
+            </div>
+
+            <div class="season_tab">
+                <input type="radio" id="tab-3" name="tab-group-1">
+                <label for="tab-3">Wishlist</label>
+            
+                <div class="season_content">
+                    <p class="judul">Wishlist</p>
+                    <p class="desc">Fulfill Your Wishes with Interesting Orders</p>
+                    <div class="content-wishlist">
+                        <div class="wishlist-box">
+                            a
+                        </div>
+                    </div>
+                </div> 
+            </div>
+
+            <div class="season_tab">
+                <input type="radio" id="tab-4" name="tab-group-1">
+                <label for="tab-4">Change Password</label>
+            
+                <div class="season_content">
+                    <p class="judul">Change Password</p>
+                    <p class="desc">Enhance the security of your account with a stronger password</p>
+                    <form action="{% url 'change_password' %}" method="post" class="form-change-password">
+                        {% csrf_token %}
+                        <p class="label-form">Old Password:</p>
+                        <input type="password" name="old_password" id="old_password" class="form-input">
+                        <p class="label-form">Create New Password:</p>
+                        <input type="password" name="new_password1" id="new_password1" class="form-input">
+                        <p class="label-form">Confirm New Password:</p>
+                        <input type="password" name="new_password2" id="new_password2" class="form-input">
+                        <button type="submit" class="form-button">Save Changes</button>
+                    </form>
+                </div> 
+            </div>
+            
         </div>
 
+    </div>
+    <script>
+        // Mengambil elemen-elemen yang diperlukan
+        const tabs = document.querySelectorAll('.season_tab input[type="radio"]');
+        const contents = document.querySelectorAll('.season_content');
+    
+        // Menambahkan event listener untuk setiap tab
+        tabs.forEach((tab, index) => {
+            tab.addEventListener('change', () => {
+                // Menyembunyikan semua konten
+                contents.forEach((content) => {
+                    content.style.display = 'none';
+                });
+    
+                // Menampilkan konten yang sesuai dengan tab yang dipilih
+                if (tab.checked) {
+                contents[index].style.display = 'block';
+                }
+            });
+        });
+    </script>
         <script>
             function showFileName() {
                 var fileInput = document.getElementById('profileImage');

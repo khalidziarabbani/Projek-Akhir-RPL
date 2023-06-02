@@ -51,7 +51,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'myFirstApp.context_processors.cart_items'
+                'myFirstApp.context_processors.cart_count'
             ],
         },
     },

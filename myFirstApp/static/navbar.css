@@ -26,14 +26,14 @@ html {
 }
 
 .logo {
-    width: 20%;
+    width: 25%;
     display: flex;
     align-items: center;
     padding-left: 40px;
 }
 
 .features {
-    width: 60%;
+    width: 40%;
     display: flex;
     list-style: none;
     align-items: center;
@@ -42,8 +42,6 @@ html {
 }
 
 .features a {
-    font-family: 'Inter';
-    font-style: normal;
     font-weight: 400;
     font-size: 16px;
     line-height: 19px;
@@ -61,6 +59,7 @@ html {
     align-items: center;
     flex-direction: row;
     position: relative;
+    margin-left: 153px;
 }
 
 
@@ -70,8 +69,8 @@ html {
     position: absolute;
     top: 100%;
     left: 0;
-    z-index: 1;
-    width: 250px;
+    z-index: 100;
+    width: 220px;
     padding: 0;
     margin: 0;
     list-style: none;
@@ -117,6 +116,10 @@ html {
     line-height: 18px;
     color: #E53433;
     cursor: default;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100px;
 }
 
 

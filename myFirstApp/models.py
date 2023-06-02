@@ -5,7 +5,7 @@ import random
 # Create your models here.
 
 class Categorie(models.Model):
-    name = models.CharField(max_length=200, help_text='Enter a category (e.g. T-Shirt, Hoodie, etc.)')
+    name = models.CharField(max_length=200)
     image = models.ImageField(upload_to='images/category/', null=True, blank=True)
     def __str__(self):
         return self.name
@@ -45,6 +45,7 @@ class Expedition(models.Model):
     name = models.CharField(max_length=200, help_text='Enter a expedition (e.g. JNE, TIKI, etc.)', null=True, blank=True)
     image = models.ImageField(upload_to='images/expedition/', null=True, blank=True)
     price = models.FloatField(default=0, null=True, blank=True)
+    time_expedition = models.CharField(max_length=200, help_text='Enter time expedition (e.g. 1-2 days, 2-3 days, etc.)', null=True, blank=True)
     def __str__(self):
         return self.name
     
@@ -68,16 +69,17 @@ class Order(models.Model):
     address = models.CharField(max_length=200, null=True, blank=True)
     email = models.CharField(max_length=200, null=True, blank=True)
     virtual_account = models.CharField(max_length=200, null=True, blank=True)
+    delivery_address = models.CharField(max_length=200, null=True, blank=True)
     
     def __str__(self):
         return str(self.id)
     
     @property
-    def get_cart_total(self):
+    def get_total_cost(self):
         orderitems = self.orderitem_set.all()
         total = sum([item.quantity * item.product.price for item in orderitems])
         return total
-
+    
     @property
     def get_total_items(self):
         orderitems = self.orderitem_set.all()
@@ -86,7 +88,7 @@ class Order(models.Model):
     
     @property
     def get_total_payment(self):
-        total = self.get_cart_total
+        total = self.get_total_cost
         if self.expedition:
             total += self.expedition.price
         if self.payment_method:
@@ -95,12 +97,13 @@ class Order(models.Model):
     
     def save(self, *args, **kwargs):
         if not self.order_number:
-            self.order_number = self.generate_order_number()
+            self.order_number = self.generate_random_number
         super().save(*args, **kwargs)
     
-    def generate_order_number(self):
-        order_number = str(random.randint(100000, 999999))
-        return order_number
+    @property    
+    def generate_random_number(self):
+        random_number = str(random.randint(100000, 999999))
+        return random_number
 
 class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True)
@@ -115,20 +118,39 @@ class OrderItem(models.Model):
     def get_total(self):
         total = self.product.price * self.quantity
         return total
+    
+class Wishlist(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    products = models.ManyToManyField(Product)
+    
+    def __str__(self):
+        return self.user.username + "'s wishlist"
 
+    def add_to_wishlist(self, product):
+        self.products.add(product)
+
+    def remove_from_wishlist(self, product):
+        self.products.remove(product)
+
+class Status(models.Model):
+    name = models.CharField(max_length=200, null=True, blank=True)
+    def __str__(self):
+        return self.name
+    
 
 class Shipment(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True)
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
-    city = models.CharField(max_length=200, null=False)
-    province = models.CharField(max_length=200, null=False)
-    zipcode = models.CharField(max_length=200, null=False)
     date_added = models.DateTimeField(auto_now_add=True)
-    tracking_number = models.CharField(max_length=200, null=True, blank=True)
     delivery_address = models.CharField(max_length=200, null=True, blank=True)
-    
+    status_shipment = models.ForeignKey(Status, on_delete=models.SET_NULL, blank=True, null=True)
     def __str__(self):
         if self.user is not None:
             return self.user.username
         else:
             return "No User Assigned"
+    
+    def save(self, *args, **kwargs):
+        if self.order is not None:
+            self.delivery_address = self.order.delivery_address
+        super().save(*args, **kwargs)

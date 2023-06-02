@@ -1,20 +1,18 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.utils import timezone
-from django.db.models import Sum
-from django.dispatch import receiver
-from django.db.models.signals import post_save
-from django.contrib.auth.models import User
+from django import forms
+from django.contrib.messages import get_messages
 from django.contrib import messages
-from django.core.cache import cache
 import random
 import json
 from django.http import JsonResponse
 # add categories from database
-from .models import Categorie , Product, Profile, Expedition, Payment_method, Order, OrderItem, Shipment
+from .models import Categorie , Product, Profile, Expedition, Payment_method, Order, OrderItem, Shipment, Status, Wishlist
 
 def index(request):
     categories = Categorie.objects.all()
@@ -45,6 +43,20 @@ def add_to_cart(request, product_id):
         }
         return render(request, 'cart.html', context)
 
+@login_required(login_url='login')
+def add_to_wishlist(request, product_id):
+    if request.method == 'POST':
+        product = get_object_or_404(Product, id=product_id)
+        wishlist, created = Wishlist.objects.get_or_create(user=request.user)
+
+        if product in wishlist.products.all():
+            wishlist.products.remove(product)
+            messages.error(request, 'Product removed from wishlist.')
+        else:
+            wishlist.products.add(product)
+            messages.success(request, 'Product added to wishlist.')
+
+    return redirect('profile')
 
 def register(request):
     if request.method == 'POST':
@@ -57,21 +69,22 @@ def register(request):
             login(request, user)
             return redirect('login')
         else:
-            # Tambahkan pesan kesalahan ke dalam alert
             for field, errors in form.errors.items():
                 for error in errors:
-                    messages.error(request, f"{field}: {error}", extra_tags='alert-danger')
+                    return render(request, 'register.html', {'form': form})
 
             return render(request, 'register.html', {'form': form})
     elif request.method == 'GET':
+        # Hapus pesan-pesan dari request sebelumnya
+        storage = get_messages(request)
+        for message in storage:
+            pass
+
         return render(request, 'register.html')
 
 
 def loginview(request):
     form = UserCreationForm(request.POST)
-    # if request.user.is_authenticated:
-    #     return redirect('index')
-    
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -89,6 +102,7 @@ def logoutview(request):
     logout(request)
     return redirect('index')
 
+@login_required(login_url='login')
 def profile(request):
     if request.method == 'POST':
         user = request.user
@@ -109,7 +123,7 @@ def profile(request):
         user.save()
         profile.save()
         return redirect('profile')
-    else:
+    else :
         return render(request, 'profile.html')
 
     
@@ -123,6 +137,36 @@ def edit_image(request):
 
     return render(request, 'profile.html')
 
+class ChangePasswordForm(forms.Form):
+    old_password = forms.CharField(widget=forms.PasswordInput)
+    new_password1 = forms.CharField(widget=forms.PasswordInput)
+    new_password2 = forms.CharField(widget=forms.PasswordInput)
+
+def change_password(request):
+    if request.method == 'POST':
+        form = ChangePasswordForm(request.POST)
+        if form.is_valid():
+            user = request.user
+            old_password = form.cleaned_data['old_password']
+            new_password1 = form.cleaned_data['new_password1']
+            new_password2 = form.cleaned_data['new_password2']
+
+            if user.check_password(old_password):
+                if new_password1 == new_password2:
+                    user.set_password(new_password1)
+                    user.save()
+                    update_session_auth_hash(request, user)
+                    messages.success(request, 'Password changed successfully.')
+                    return redirect('profile')
+                else:
+                    messages.error(request, 'New password confirmation does not match.')
+            else:
+                messages.error(request, 'Old password is invalid.')
+    else:
+        form = ChangePasswordForm()
+
+    return render(request, 'profile.html', {'form': form})
+
 @login_required(login_url='login')
 def payment(request):
     if request.method == 'GET':
@@ -131,17 +175,17 @@ def payment(request):
         payment_method = Payment_method.objects.all()
         order, created = Order.objects.get_or_create(user=user, complete=False)
         order_items = order.orderitem_set.all()
-        order.date_ordered = timezone.now()  # Assign current datetime to order.date
+        order.date_ordered = timezone.now()
         order_number = random.randint(100000, 999999)
-        order.order_number = order_number
         virtual_account = random.randint(100000000000, 999999999999)
+        order.order_number = order_number
         order.virtual_account = virtual_account
         order.save()
         
         if not order_items:
             return redirect('cart')
 
-        subtotal = order.get_cart_total
+        subtotal = order.get_total_cost
         total_price = order.get_total_payment
         context = {
             "expeditions": expedition,
@@ -161,9 +205,6 @@ def payment(request):
         email = request.POST['email']
         address = request.POST['address']
         phone = request.POST['phone']
-        city = request.POST['city']
-        province = request.POST['province']
-        zipcode = request.POST['zipcode']
         total_cost = float(request.POST['total_cost'].replace('$', ''))
 
         expedition_id = request.POST.get('shipping_method')
@@ -179,6 +220,7 @@ def payment(request):
         order.expedition = expedition
         order.payment_method = payment_method
         order.total_cost = total_cost
+        order.delivery_address = delivery_address
         if request.POST['type'] == 'now':
             order.complete = True
         order.save()
@@ -189,9 +231,6 @@ def payment(request):
             user=user,
             order=order,
             delivery_address=delivery_address,
-            city=city,
-            province=province,
-            zipcode=zipcode,
         )
         
         return redirect('purchase')
@@ -202,7 +241,7 @@ def cart(request):
     user = request.user
     order, created = Order.objects.get_or_create(user=user, complete=False)
     items = order.orderitem_set.all()
-    subtotal = order.get_cart_total
+    subtotal = order.get_total_cost
     context = {
         'items': items,
         'order': order,
@@ -249,54 +288,41 @@ def product(request, product_id):
         return render(request, 'product.html', context)
 
 
-def updateItem2(request):
+def updateItem(request):
     data = json.loads(request.body)
     itemId = data['productId']
     action = data['action']
-
-    print('Action:', action)
-    print('itemId:', itemId)
-
+    
     user = request.user
     orderItem = OrderItem.objects.get(id=itemId)
-
     product = orderItem.product
     order, created = Order.objects.get_or_create(user=user, complete=False)
-
     orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
 
     if action == 'add':
         orderItem.quantity = (orderItem.quantity + 1)
-        # messages.success(request, f'Item was successfully added')
         orderItem.save()
-        # Render message item suces fully added
-        # return JsonResponse({'success': 'Item was added'}, status=200)
-
     elif action == 'remove':
         orderItem.quantity = (orderItem.quantity - 1)
-        orderItem.save()
-        
-    elif action == 'delete_this_item':
+        orderItem.save()  
+    elif action == 'delete':
         orderItem.delete()
-
     if orderItem.quantity <= 0:
         orderItem.delete()
-
     return JsonResponse('Item was added', safe=False)
 
 @login_required(login_url='login')
 def purchase(request):
     if request.method == 'GET':
         user = request.user
-        orders = Order.objects.filter(user=user, orderitem__quantity__gt=0, complete=True).order_by('-date_ordered').distinct()
+        orders = Order.objects.filter(user=user, complete=True).order_by('-date_ordered').distinct()
         order_items = []
         for order in orders:
             order_items.append(order.orderitem_set.all())
 
-        shipments = Shipment.objects.filter(order__in=orders)
+        shipment = Shipment.objects.filter(order__in=orders)
         payment_methods = orders.values('payment_method__id').distinct()
         expeditions = orders.values('expedition__id').distinct()
-        total_price = orders.aggregate(total_cost=Sum('total_cost'))
         full_name = orders.values('full_name').distinct()
         email = orders.values('email').distinct()
         phone = orders.values('phone').distinct()
@@ -305,10 +331,9 @@ def purchase(request):
         context = {
             "orders": orders,
             "order_items": order_items,
-            "shipments": shipments,
+            "shipment": shipment,
             "payment_methods": payment_methods,
             "expeditions": expeditions,
-            "total_price": total_price['total_cost'],
             "full_name": full_name,
             "email": email,
             "phone": phone,

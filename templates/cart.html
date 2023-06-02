@@ -22,11 +22,11 @@
                         <p class="price">${{item.product.price}}</p>
                         <div class="qty-delete">
                             <div class="qty">
-                                <button data-product="{{item.id}}"  class="qty-btn update-cart2" data-action="remove" >-</button>
+                                <button data-product="{{item.id}}"  class="qty-btn updateItem" data-action="remove" >-</button>
                                 <input id="qtyInput" type="text" min="1" value="{{item.quantity}}" readonly> </input>
-                                <button data-product="{{item.id}}"  class="qty-btn update-cart2" data-action="add"  >+</button>
+                                <button data-product="{{item.id}}"  class="qty-btn updateItem" data-action="add"  >+</button>
                             </div>
-                            <button data-product="{{item.id}}" class="delete-btn update-cart2" data-action="delete_this_item" >Delete</button>
+                            <button data-product="{{item.id}}" class="delete-btn updateItem" data-action="delete" >Delete</button>
                         </div>
                     </div>
                 </div>
@@ -76,5 +76,47 @@
         currentValue++;
         qtyInput.value = currentValue;
         }
+</script>
+
+<script>
+    var update = document.getElementsByClassName('updateItem')
+    for(var i = 0; i < update.length; i++){
+        update[i].addEventListener('click', function(){
+            var productId  = this.dataset.product
+            var action = this.dataset.action
+            console.log('productId:', productId, 'Action:', action)
+            console.log('USER:', user)
+            if(user == 'AnonymousUser'){
+                console.log('Not logged in')
+                alert('You need to login first to add items to your cart.')
+            }else{
+                updateUserOrder(productId, action)
+            }
+        })
+    }
+
+    function updateUserOrder(productId, action){
+        console.log('User is logged in, sending data...')
+
+        var url = '/updateItem/'
+
+        fetch(url, {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json',
+                'X-CSRFToken':csrftoken,
+            },
+            body:JSON.stringify({'productId':productId, 'action':action})
+        })
+
+        .then((response) => {
+            return response.json()
+        })
+
+        .then((response) => {
+            console.log('data:', response)
+            location.reload()
+        })
+    }
 </script>
 {% endblock content %}

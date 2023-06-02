@@ -8,10 +8,6 @@
         <li><a href="{% url 'index' %}">Home</a></li>
         <li><a href="{% url 'categories' %}">Categories</a></li>
         <li><a href="{% url 'all_products' %}">Products</a></li>
-        <li><a href="{% url 'cart' %}">Cart
-            {% comment %} <span>{{request.user.profile.cartCount}}</span> {% endcomment %}
-        </a></li>
-        <li><a href="#about">About</a></li>
     </div>
 
     <div class="user-icon">
@@ -31,6 +27,7 @@
             <p>{{ request.user.username }}</p>
             <ul>
                 <li><a href="{% url 'profile' %}">Profile</a></li>
+                <li><a href="{% url 'cart' %}">Cart</a></li>
                 <li><a href="{% url 'purchase' %}">My Purchases</a></li>
                 <li><a href="{% url 'logout' %}">Logout</a></li>
             </ul>

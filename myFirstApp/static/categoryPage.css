@@ -165,3 +165,38 @@
     background: none;
     cursor: pointer;
 }
+
+.buttonss {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 9px;
+    margin-right: 9px;
+    background-color: white;
+}
+
+.wishlist-button{
+    font-size: 20px;
+    height: 20px;
+    width: 20px;
+    border: none;
+    background-image: url(img/heartt.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.wishlist-button:hover{
+    background-image: url(img/heartfull.png);
+}
+
+.wishlist-added {
+    background-image: url(img/heartfull.png) !important;
+}
+
+.wishlist-added:hover {
+    background-image: url(img/heartt.png) !important;
+}

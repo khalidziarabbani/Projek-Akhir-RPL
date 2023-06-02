@@ -66,13 +66,23 @@
                         </div>
                         <div class="harga-item">${{p.price}}</div>
                     </div>
-                    <form method="POST" action="{% url 'add_to_cart' p.id %}">
-                        {% csrf_token %}
+                    <div class="buttonss">
                         <div class="item-button">
-                            <button type="submit">Add to cart</button>
+                            <form method="POST" action="{% url 'add_to_cart' p.id %}">
+                                    {% csrf_token %}
+                                <button type="submit">Add to cart</button>
+                                <input type="hidden" name="quantity" value="1">
+                            </form>
                         </div>
-                        <input type="hidden" name="quantity" value="1">
-                    </form>
+                        <form method="POST" action="{% url 'add_to_wishlist' p.id %}" class="wishlist">
+                            {% csrf_token %}
+                            {% if request.user.is_authenticated and p in request.user.wishlist.products.all %}
+                                <button type="submit" class="wishlist-button wishlist-added"></button>
+                            {% else %}
+                                <button type="submit" class="wishlist-button"></button>
+                            {% endif %}
+                        </form>
+                    </div>
                 </a>
                 </div>
             {% endfor %}

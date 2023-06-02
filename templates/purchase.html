@@ -41,7 +41,7 @@
                     </div>
                     <div class="total-price">
                         <span>Total Price:</span>
-                        <p>${{total_price|floatformat:2}}</p>
+                        <p>${{order.total_cost|floatformat:2}}</p>
                     </div>
                     <div class="user">
                         <div class="fullname">
@@ -59,12 +59,12 @@
                     </div>
                     <div class="deliver-address">
                         <span>Deliver Address:</span>
-                        <p>{{shipments.0.delivery_address}}</p>
+                        <p>{{order.delivery_address}}</p>
                     </div>
                 </div>
             </div>
             <div class="payment-button">
-                <button class="later" id="myBtn-{{order.order_number}}" data-modal-id="myModal-{{order.order_number}}">Detail</button>.
+                <button class="later" id="myBtn-{{order.order_number}}" data-modal-id="myModal-{{order.order_number}}">Detail</button>
             </div>
 
             <div id="myModal-{{order.order_number}}" class="modal">
@@ -92,7 +92,7 @@
                     </div>
                     <div class="payment-price">
                         <p>Total Price :</p>
-                        <span>${{ total_price|floatformat:2 }}</span>
+                        <span>${{ order.total_cost|floatformat:2 }}</span>
                     </div>
                     <div class="payment-deadline">
                         <p>Date ordered :</p>
