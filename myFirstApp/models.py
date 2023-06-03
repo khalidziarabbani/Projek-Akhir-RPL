@@ -136,11 +136,6 @@ class Wishlist(models.Model):
     def remove_from_wishlist2(cls, user, product):
         wishlist, created = cls.objects.get_or_create(user=user)
         wishlist.products.remove(product)
-
-class Status(models.Model):
-    name = models.CharField(max_length=200, null=True, blank=True)
-    def __str__(self):
-        return self.name
     
 
 class Shipment(models.Model):
@@ -148,7 +143,6 @@ class Shipment(models.Model):
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, blank=True, null=True)
     date_added = models.DateTimeField(auto_now_add=True)
     delivery_address = models.CharField(max_length=200, null=True, blank=True)
-    status_shipment = models.ForeignKey(Status, on_delete=models.SET_NULL, blank=True, null=True)
     def __str__(self):
         if self.user is not None:
             return self.user.username

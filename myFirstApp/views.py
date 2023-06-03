@@ -12,7 +12,7 @@ import random
 import json
 from django.http import JsonResponse
 # add categories from database
-from .models import Categorie , Product, Profile, Expedition, Payment_method, Order, OrderItem, Shipment, Status, Wishlist
+from .models import Categorie , Product, Profile, Expedition, Payment_method, Order, OrderItem, Shipment, Wishlist
 
 def index(request):
     categories = Categorie.objects.all()
