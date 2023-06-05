@@ -339,11 +339,12 @@ html {
     gap: 30px;
 }
 
-.wishlist-box {
+.wishlist-box a{
     padding: 10px;
     border: 1px solid #ccc;
     display: flex;
     flex-direction: column;
+    height: 100%;
     align-items: center;
 }
 
